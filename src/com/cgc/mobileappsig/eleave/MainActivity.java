@@ -38,10 +38,7 @@ public class MainActivity extends Activity {
 			JSONObject data = new JSONObject(json);
 
 			if (IpsWebService.sendMessage(activity, IpsMsgConstants.MT_LOGIN, data)) {
-//				Util.showShortToast(activity, R.string.query_apk_version);
 			} else {
-				// All errors should be handled in the sendToServer
-				// method
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

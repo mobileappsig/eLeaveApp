@@ -20,8 +20,6 @@ public class LoginReplyJsonParser extends AbstractJsonParser<LoginReply> {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.winjune.wips.webservice.parsers.json.AbstractJsonParser
-	 * #parseInner()
 	 */
 	@Override
 	protected LoginReply parseInner(JsonPullParser parser) throws IOException,
