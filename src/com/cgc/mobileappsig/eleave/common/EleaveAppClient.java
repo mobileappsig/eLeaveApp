@@ -5,7 +5,7 @@ import android.util.Log;
 import com.loopj.android.http.*;
 
 public class EleaveAppClient {
-	public static final String SERVERNAME = "http://146.11.0.77:8080";
+	public static final String SERVERNAME = "http://10.178.255.124:8080";
     private static final String BASE_URL = SERVERNAME + "/eleaveAppServer/API/";
     private static AsyncHttpClient client = new AsyncHttpClient();
     
