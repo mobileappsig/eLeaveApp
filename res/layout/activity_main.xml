@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,11 +7,83 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+    tools:context=".LoginActivity" 
+    android:background="@drawable/appbackground"> 
+   <!--  android:background="@drawable/loginbg"> -->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        <TextView
+            android:id="@+id/tv_eid"
+            android:layout_width="wrap_content"
+            android:layout_height="35dip"
+            android:layout_marginLeft="12dip"
+            android:layout_marginTop="10dip"
+            android:gravity="bottom"
+            android:text="@string/accountstr"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_eid"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:layout_below="@id/tv_eid"
+            android:layout_marginLeft="12dip"
+            android:layout_marginRight="10dip" 
+            android:inputType="text">
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/tv_pass"
+            android:layout_width="wrap_content"
+            android:layout_height="35dip"
+            android:layout_below="@id/et_eid"
+            android:layout_marginLeft="12dip"
+            android:layout_marginTop="10dip"
+            android:gravity="bottom"
+            android:text="@string/passstr"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_pass"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:layout_below="@id/tv_pass"
+            android:layout_marginLeft="12dip"
+            android:layout_marginRight="10dip"
+            android:maxLines="200"
+            android:password="true"
+            android:scrollHorizontally="true" 
+            android:inputType="text"/>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="80dip"
+            android:layout_height="40dip"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/et_pass"
+            android:layout_marginRight="10dip"
+            android:gravity="center"
+            android:text="@string/loginbtn"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/mini_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/logo" />
+        
+        <ImageView android:src="@drawable/eleave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/mini_logo"
+            android:layout_alignBottom="@id/mini_logo"
+            android:paddingBottom="18dp"/>
 
 </RelativeLayout>
+    
