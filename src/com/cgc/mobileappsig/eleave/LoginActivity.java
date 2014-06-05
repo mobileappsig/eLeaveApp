@@ -88,7 +88,7 @@ public class LoginActivity extends Activity {
                             Toast.makeText(LoginActivity.this, "Login successfully!",
                                 Toast.LENGTH_SHORT).show();
                     		Intent cSwitchIntent = new Intent();
-                			cSwitchIntent.setClass(LoginActivity.this,ApplyActivity.class);  
+                			cSwitchIntent.setClass(LoginActivity.this,MainTabActivity.class);  
                             startActivity(cSwitchIntent);
                             LoginActivity.this.finish();
                             break;
