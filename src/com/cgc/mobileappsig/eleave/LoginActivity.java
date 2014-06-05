@@ -39,6 +39,13 @@ public class LoginActivity extends Activity {
 	private OnClickListener listener =new OnClickListener(){
 		@Override 
 		public void onClick(View v) {
+//			Intent cSwitchIntent = new Intent();
+//			cSwitchIntent.setClass(LoginActivity.this,ApplyActivity.class);  
+//            startActivity(cSwitchIntent);
+//            Log.e("anne", "before");
+//            LoginActivity.this.finish();
+//			Log.e("anne", "finished");
+			
 			EditText userid = (EditText)findViewById(R.id.et_eid);
 			EditText password = (EditText)findViewById(R.id.et_pass);
 			String suid = userid.getText().toString();
@@ -81,7 +88,7 @@ public class LoginActivity extends Activity {
                             Toast.makeText(LoginActivity.this, "Login successfully!",
                                 Toast.LENGTH_SHORT).show();
                     		Intent cSwitchIntent = new Intent();
-                			cSwitchIntent.setClass(LoginActivity.this,MainTabActivity.class);  
+                			cSwitchIntent.setClass(LoginActivity.this,ApplyActivity.class);  
                             startActivity(cSwitchIntent);
                             LoginActivity.this.finish();
                             break;

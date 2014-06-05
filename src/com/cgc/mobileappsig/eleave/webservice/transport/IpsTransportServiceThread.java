@@ -15,7 +15,7 @@ import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
 
-import com.cgc.mobileappsig.eleave.R;
+//import com.cgc.mobileappsig.eleave.R;
 import com.cgc.mobileappsig.eleave.common.Settings;
 import com.cgc.mobileappsig.eleave.common.webservice.core.error.WebCredentialsException;
 import com.cgc.mobileappsig.eleave.common.webservice.core.error.WebError;

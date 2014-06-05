@@ -13,7 +13,7 @@ import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.cgc.mobileappsig.eleave.R;
+//import com.cgc.mobileappsig.eleave.R;
 import com.cgc.mobileappsig.eleave.common.Settings;
 import com.cgc.mobileappsig.eleave.common.webservice.core.transport.OutgoingMessageQueue;
 import com.cgc.mobileappsig.eleave.webservice.transport.IpsMessageHandler;
