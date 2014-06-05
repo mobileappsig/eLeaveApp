@@ -19,23 +19,87 @@ public final class R {
          */
         public static final int activity_horizontal_margin=0x7f040000;
         public static final int activity_vertical_margin=0x7f040001;
+        public static final int bottom_tab_font_size=0x7f040002;
+        public static final int bottom_tab_padding_drawable=0x7f040004;
+        public static final int bottom_tab_padding_up=0x7f040003;
+        public static final int emotion_item_view_height=0x7f040010;
+        public static final int large_padding_length=0x7f040008;
+        public static final int new_blog_size=0x7f04000f;
+        public static final int no_result_padding_length=0x7f040015;
+        public static final int normal_padding_length=0x7f040014;
+        public static final int splash_test_center_margin_right=0x7f040012;
+        public static final int splash_test_top_margin_top=0x7f040011;
+        public static final int sta_height=0x7f040007;
+        public static final int switch_logo_bottom_padding=0x7f040005;
+        public static final int title_height=0x7f04000e;
+        public static final int title_text_size=0x7f040013;
+        public static final int widget_content_margin_left=0x7f04000c;
+        public static final int widget_content_margin_top=0x7f04000b;
+        public static final int widget_height=0x7f040006;
+        public static final int widget_logo_size=0x7f04000d;
+        public static final int widget_write_margin_left=0x7f04000a;
+        public static final int widget_write_margin_top=0x7f040009;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int appbackground=0x7f020000;
+        public static final int black=0x7f020011;
+        public static final int eleave=0x7f020001;
+        public static final int home_btn_bg=0x7f020002;
+        public static final int home_btn_bg_d=0x7f020003;
+        public static final int home_btn_bg_n=0x7f020004;
+        public static final int home_btn_bg_s=0x7f020005;
+        public static final int ic_launcher=0x7f020006;
+        public static final int ic_launcher1=0x7f020007;
+        public static final int icon_1_n=0x7f020008;
+        public static final int icon_2_n=0x7f020009;
+        public static final int icon_3_n=0x7f02000a;
+        public static final int icon_4_n=0x7f02000b;
+        public static final int icon_5_n=0x7f02000c;
+        public static final int list_background=0x7f020015;
+        public static final int logo=0x7f02000d;
+        public static final int ltgray=0x7f02000f;
+        public static final int ltyellow=0x7f020010;
+        public static final int maintab_toolbar_bg=0x7f02000e;
+        public static final int namcard_picker_bkg_hover=0x7f020017;
+        public static final int namcard_picker_bkg_normal=0x7f020016;
+        public static final int transparent=0x7f020012;
+        public static final int transparent_background=0x7f020014;
+        public static final int widget_edit_block_bg_normal=0x7f020013;
     }
     public static final class id {
-        public static final int action_settings=0x7f080000;
+        public static final int action_settings=0x7f08000c;
+        public static final int btn_login=0x7f08000a;
+        public static final int et_eid=0x7f080007;
+        public static final int et_pass=0x7f080009;
+        public static final int main_tab=0x7f080000;
+        public static final int mini_logo=0x7f08000b;
+        public static final int radio_apply=0x7f080002;
+        public static final int radio_exit=0x7f080005;
+        public static final int radio_help=0x7f080004;
+        public static final int radio_home=0x7f080001;
+        public static final int radio_report=0x7f080003;
+        public static final int tv_eid=0x7f080006;
+        public static final int tv_pass=0x7f080008;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
+        public static final int activity_basicinfo=0x7f030000;
+        public static final int activity_main=0x7f030001;
     }
     public static final class menu {
         public static final int main=0x7f070000;
     }
     public static final class string {
+        public static final int accountstr=0x7f050004;
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
         public static final int hello_world=0x7f050002;
+        public static final int loginbtn=0x7f050003;
+        public static final int main_apply=0x7f050007;
+        public static final int main_exit=0x7f050008;
+        public static final int main_help=0x7f05000a;
+        public static final int main_home=0x7f050006;
+        public static final int main_report=0x7f050009;
+        public static final int passstr=0x7f050005;
     }
     public static final class style {
         /** 
@@ -64,5 +128,6 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f060001;
+        public static final int main_tab_bottom=0x7f060002;
     }
 }
