@@ -5,23 +5,26 @@ import java.util.Calendar;
 import java.util.Hashtable;
 
 
+
+
 import com.cgc.mobileappsig.eleave.common.ExitApplication;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.*;
+import android.content.Context;
 
 public class ApplyActivity extends Activity {
 	//@Override  
@@ -54,6 +57,11 @@ public class ApplyActivity extends Activity {
 
 		private int Calendar_Width = 0;
 		private int Cell_Width = 0;
+		
+		protected ArrayAdapter<CharSequence> mAdapter;
+		protected int mPos;
+		protected String mSelection;
+
 
 		// 页面控件
 		TextView Top_Date = null;
@@ -61,7 +69,9 @@ public class ApplyActivity extends Activity {
 		Button btn_next_month = null;
 		TextView arrange_text = null;
 		LinearLayout mainLayout = null;
-		LinearLayout arrange_layout = null;
+		//LinearLayout arrange_layout = null;
+		//RelativeLayout arrange_layout = null;
+		LinearLayout layoutButton = null;
 
 		// 数据源
 		ArrayList<String> Calendar_Source = null;
@@ -80,8 +90,14 @@ public class ApplyActivity extends Activity {
 		public static int special_Reminder = 0;
 		public static int common_Reminder = 0;
 		public static int Calendar_WeekFontColor = 0;
+		
 
 		String UserName = "";
+		
+		public static int dip2px(Context context, float dpValue) { 
+	         final float scale = context.getResources().getDisplayMetrics().density; 
+	         return (int) (dpValue * scale + 0.5f); 
+	     } 
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -114,49 +130,234 @@ public class ApplyActivity extends Activity {
 
 			if (daySelected != null)
 				daySelected.requestFocus();
+			
 
-//			LinearLayout.LayoutParams Param1 = new LinearLayout.LayoutParams(
-//					ViewGroup.LayoutParams.MATCH_PARENT,
-//					ViewGroup.LayoutParams.MATCH_PARENT);
+			 //上边距（dp值） 
+	         int minHeight = dip2px(this, 54); 
+	         //上padding（dp值） 
+	         int topPadding = dip2px(this, 4); 
+	         //左padding（dp值） 
+	         int leftPadding = dip2px(this, 2); 
+	         //按钮布局 
 			
-			LinearLayout.LayoutParams Param1 = new LinearLayout.LayoutParams(
-					ViewGroup.LayoutParams.WRAP_CONTENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT);
+			LinearLayout.LayoutParams layoutSpinnerParms = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			layoutSpinnerParms.gravity = Gravity.CENTER_VERTICAL;
+			LinearLayout layoutSpinner = new LinearLayout(this);
+			layoutSpinner.setLayoutParams(layoutSpinnerParms);
+			layoutSpinner.setOrientation(LinearLayout.VERTICAL);
+			layoutSpinner.setPadding(leftPadding, topPadding, leftPadding, topPadding); 
+			
+			LinearLayout.LayoutParams layoutParamsSpinnerLeaveType = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT); 
+			layoutParamsSpinnerLeaveType.gravity = Gravity.TOP; 
+			layoutParamsSpinnerLeaveType.topMargin = dip2px(this, 10); 
+			layoutParamsSpinnerLeaveType.bottomMargin = dip2px(this, 5); 
+			layoutParamsSpinnerLeaveType.weight = 1; 
+			
+//	         //Button确定 
+//	         Button spinnerLeaveType = new Button(this); 
+//	         spinnerLeaveType.setLayoutParams(layoutParamsSpinnerLeaveType); 
+//	         spinnerLeaveType.setMaxLines(2); 
+//	         spinnerLeaveType.setTextSize(18); 
+//	         spinnerLeaveType.setText("leave day type"); 
+//	         layoutSpinner.addView(spinnerLeaveType); 
+	         
+	         Spinner spinnerLeaveType = new Spinner(this);
+	         spinnerLeaveType.setLayoutParams(layoutParamsSpinnerLeaveType);
+	         this.mAdapter = ArrayAdapter.createFromResource(this, R.array.leaveDayType,
+	                 R.layout.spinner_dropdown);
 
-			ScrollView view = new ScrollView(this);
-			arrange_layout = createLayout(LinearLayout.HORIZONTAL);
-			arrange_layout.setGravity(Gravity.CENTER);
-			arrange_layout.setPadding(10, 5, 0, 0);
-//			arrange_text = new TextView(this);
-			mainLayout.setBackgroundColor(Color.WHITE);
-//			arrange_text.setTextColor(Color.BLACK);
-//			arrange_text.setTextSize(18);
-			//arrange_layout.setGravity();
+	         /*
+	          * Attach the mLocalAdapter to the spinner.
+	          */
+
+	         spinnerLeaveType.setAdapter(this.mAdapter);
+	         layoutSpinner.addView(spinnerLeaveType);
+	          
+	         OnItemSelectedListener spinnerListener = new myOnItemSelectedListener(this,this.mAdapter);
+
+	         /*
+	          * Attach the listener to the Spinner.
+	          */
+
+	         spinnerLeaveType.setOnItemSelectedListener(spinnerListener);
+	         
+	         LinearLayout.LayoutParams layoutParamsLeaveTime = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT); 
+	         layoutParamsLeaveTime.gravity = Gravity.BOTTOM; 
+	         layoutParamsLeaveTime.topMargin = dip2px(this, 5); 
+	         layoutParamsLeaveTime.bottomMargin = dip2px(this, 10); 
+	         layoutParamsLeaveTime.weight = 1; 
+	         //Button取消 
+//	         Button spinnerLeaveTime = new Button(this); 
+//	         spinnerLeaveTime.setLayoutParams(layoutParamsLeaveTime); 
+//	         spinnerLeaveTime.setMaxLines(2); 
+//	         spinnerLeaveTime.setTextSize(18); 
+//	         spinnerLeaveTime.setText("leave time"); 
+	         
+	         Spinner spinnerLeaveTime = new Spinner(this);
+	         spinnerLeaveTime.setLayoutParams(layoutParamsLeaveTime);
+	         this.mAdapter = ArrayAdapter.createFromResource(this, R.array.leaveTime,
+	                 R.layout.spinner_dropdown);
+
+	         /*
+	          * Attach the mLocalAdapter to the spinner.
+	          */
+
+	         spinnerLeaveTime.setAdapter(this.mAdapter);
+	                  
+	         layoutSpinner.addView(spinnerLeaveTime); 
+	         
+	         OnItemSelectedListener spinnerListener2 = new myOnItemSelectedListener(this,this.mAdapter);
+
+	         /*
+	          * Attach the listener to the Spinner.
+	          */
+
+	         spinnerLeaveTime.setOnItemSelectedListener(spinnerListener2);
+	         
+	         mainLayout.addView(layoutSpinner, layoutParamsLeaveTime);
 			
-			Button submit = new Button(this);
-			Button cancel = new Button(this);
 			
-			submit.setText("Sumbit");
-			submit.setTextColor(Color.BLACK);
-			submit.setOnClickListener(new OnClickListener(){
+			//arrange_layout = new RelativeLayout(this);
+			int widthMain = dip2px(this, 240);
+			layoutButton = new LinearLayout(this);
+			LinearLayout.LayoutParams layoutButtonParms = new LinearLayout.LayoutParams(widthMain, LayoutParams.WRAP_CONTENT);
+			layoutButtonParms.gravity = Gravity.CENTER_HORIZONTAL;
+			
+			
+			layoutButton.setLayoutParams(layoutButtonParms);
+			layoutButton.setOrientation(LinearLayout.HORIZONTAL);
+			layoutButton.setPadding(leftPadding, topPadding, leftPadding, topPadding); 
+			layoutButton.setId(100000001); 
+			
+			
+			LinearLayout.LayoutParams layoutParamsButtonOK = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT); 
+	         layoutParamsButtonOK.gravity = Gravity.LEFT; 
+	         layoutParamsButtonOK.leftMargin = dip2px(this, 10); 
+	         layoutParamsButtonOK.rightMargin = dip2px(this, 5); 
+	         layoutParamsButtonOK.weight = 1; 
+	         //Button确定 
+	         Button buttonSubmit = new Button(this); 
+	         buttonSubmit.setLayoutParams(layoutParamsButtonOK); 
+	         buttonSubmit.setMaxLines(2); 
+	         buttonSubmit.setTextSize(18); 
+	         buttonSubmit.setText("submit"); 
+	         layoutButton.addView(buttonSubmit); 
+	          
+	         //buttonCancel布局参数 
+	         LinearLayout.LayoutParams layoutParamsButtonCancel = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT); 
+	         layoutParamsButtonCancel.gravity = Gravity.RIGHT; 
+	         layoutParamsButtonCancel.leftMargin = dip2px(this, 5); 
+	         layoutParamsButtonCancel.rightMargin = dip2px(this, 10); 
+	         layoutParamsButtonCancel.weight = 1; 
+	         //Button取消 
+	         Button buttonCancel = new Button(this); 
+	         buttonCancel.setLayoutParams(layoutParamsButtonCancel); 
+	         buttonCancel.setMaxLines(2); 
+	         buttonCancel.setTextSize(18); 
+	         buttonCancel.setText("cancel"); 
+	          
+	         layoutButton.addView(buttonCancel); 
+	          
+	        //layoutRoot.addView(layoutButton, layoutParamsEditInfo); 
+			
+			
+			//arrange_layout = createLayout(LinearLayout.HORIZONTAL);
+//			arrange_layout.setGravity(Gravity.CENTER_HORIZONTAL);
+//			
+//			RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+//            parms.setMargins(10, 0, 0, 0);
+//            arrange_layout.setLayoutParams(parms);
+//			
+//			//arrange_layout.setPadding(10, 5, 0, 0);
+//			Button submit = new Button(this);
+//			Button cancel = new Button(this);
+//			submit.setText("Submit");
+//			submit.setTextColor(Color.BLACK);
+//			cancel.setText("Cancel");
+//			cancel.setTextColor(Color.BLACK);
+//			
+//			//final Button fcancel = cancel;
+//			//int cancelWidth = 0;
+//			
+//			RelativeLayout.LayoutParams lp1= new RelativeLayout.LayoutParams(
+//					ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+//			lp1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//			//int center = screenWidth/2;
+//			
+//			
+//			//cancel.setId(1001);
+//			
+//			//lp1.setMargins(5,0,0,0);
+//			//cancel.setLayoutParams(lp1);
+//			
+//			
+//			
+////			cancel_static = cancel;
+////			
+////			ViewTreeObserver vto = cancel.getViewTreeObserver();
+////			vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener(){
+////				public boolean onPreDraw()
+////				{
+////					cancelWidth = cancel_static.getMeasuredWidth();
+////					return true;
+////				}
+////			
+////			});
+////			
+//			
+//			
+//			RelativeLayout.LayoutParams lp2= new RelativeLayout.LayoutParams(
+//					ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+//			
+//			lp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//			//lp2.setMargins(center+2, 0, 0, 0);
+//		    lp2.addRule(RelativeLayout.LEFT_OF, cancel.getId());
+//		    //lp2.setMargins(screenWidth - cancel.getWidth()-10 - submit.getWidth(), 0,0,0);
+//		    //submit.requestLayout();
+//		    
+////		    int leftMargine = 0;
+////		    int width = 0;
+////		    DisplayMetrics dm = new DisplayMetrics();getWindowManager().getDefaultDisplay().getMetrics(dm);width = dm.widthPixels;
+////		    leftMargine = width - cancel.getWidth() - submit.getWidth() - 5;
+//		   // lp2.setMargins(0, 0, 0, 5);
+//           // lp2.setMargins(100,0,0,0);
+//		   // lp2.setMargins(50, 50, 50, 50);
+////			Log.e("screenWidth", (new Integer(screenWidth)).toString());
+////			
+////			Log.e("cancelWidth", (new Integer(cancelWidth)).toString());
+////			//Log.e("submitWitdh", (new Integer(submitWitdh)).toString());
+////			lp2.setMargins(0,0,cancelWidth + 10, 0);
+//			
+//			//lp2.addRule(RelativeLayout.RIGHT_OF, cancel.getId());
+//			//lp2.addRule(RelativeLayout.ALIGN_TOP, cancel.getId());
+//		
+//			arrange_layout.addView(cancel,lp1);		    
+//			arrange_layout.addView(submit,lp2);
+//			
+			
+			
+		   mainLayout.setBackgroundColor(Color.WHITE);
+			
+			
+						
+		   buttonSubmit.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
 				//do some process
 				Log.i("Anne", "Submit button is pressed.");
 			}
 			});
 			
-			cancel.setText("Cancel");
-			cancel.setTextColor(Color.BLACK);
-			cancel.setOnClickListener(new OnClickListener(){
+			
+		   buttonCancel.setOnClickListener(new OnClickListener(){
 				public void onClick(View v){
 					//do some process
 					Log.i("Anne", "Cancel button is pressed.");
+					DateWidgetDayCell.clearSelectedDays();
+					updateCalendar();
 				}
 				});
 		
-//			arrange_layout.addView(arrange_text);
-			arrange_layout.addView(submit);
-			arrange_layout.addView(cancel);
+						
 
 			startDate = GetStartDate();
 			calToday = GetTodayDate();
@@ -164,7 +365,7 @@ public class ApplyActivity extends Activity {
 			endDate = GetEndDate(startDate);
 			//view.addView(arrange_layout, Param1);
 //			mainLayout.addView(view);
-			mainLayout.addView(arrange_layout);
+			mainLayout.addView(layoutButton, layoutButtonParms);
 
 			// 新建线程
 			new Thread() {
@@ -197,6 +398,62 @@ public class ApplyActivity extends Activity {
 			Calendar_WeekFontColor = this.getResources().getColor(
 					R.color.Calendar_WeekFontColor);
 		}
+		
+		public class myOnItemSelectedListener implements OnItemSelectedListener {
+
+	        /*
+	         * provide local instances of the mLocalAdapter and the mLocalContext
+	         */
+
+	        ArrayAdapter<CharSequence> mLocalAdapter;
+	        Activity mLocalContext;
+
+	        /**
+	         *  Constructor
+	         *  @param c - The activity that displays the Spinner.
+	         *  @param ad - The Adapter view that
+	         *    controls the Spinner.
+	         *  Instantiate a new listener object.
+	         */
+	        public myOnItemSelectedListener(Activity c, ArrayAdapter<CharSequence> ad) {
+
+	          this.mLocalContext = c;
+	          this.mLocalAdapter = ad;
+
+	        }
+
+	        /**
+	         * When the user selects an item in the spinner, this method is invoked by the callback
+	         * chain. Android calls the item selected listener for the spinner, which invokes the
+	         * onItemSelected method.
+	         *
+	         * @see android.widget.AdapterView.OnItemSelectedListener#onItemSelected(
+	         *  android.widget.AdapterView, android.view.View, int, long)
+	         * @param parent - the AdapterView for this listener
+	         * @param v - the View for this listener
+	         * @param pos - the 0-based position of the selection in the mLocalAdapter
+	         * @param row - the 0-based row number of the selection in the View
+	         */
+	        public void onItemSelected(AdapterView<?> parent, View v, int pos, long row) {
+
+	            ApplyActivity.this.mPos = pos;
+	            ApplyActivity.this.mSelection = parent.getItemAtPosition(pos).toString();
+	            Log.e("anne", ApplyActivity.this.mSelection);
+	          
+	        }
+
+	        /**
+	         * The definition of OnItemSelectedListener requires an override
+	         * of onNothingSelected(), even though this implementation does not use it.
+	         * @param parent - The View for this Listener
+	         */
+	        public void onNothingSelected(AdapterView<?> parent) {
+
+	            // do nothing
+
+	        }
+	    }
+
 
 		protected String GetDateShortString(Calendar date) {
 			String returnString = date.get(Calendar.YEAR) + "/";
