@@ -97,6 +97,13 @@ public class DateWidgetDayCell extends View {
 		return false;
 	}
 	
+	public static void clearSelectedDays(){
+		
+			//Log.e("anne", (new Integer(selectedDayCells.size()).toString()));
+			selectedDayCells.clear();
+
+	}
+	
 	public static void printSelectedDays(){
 		Log.i("Anne", "started...");
 		
