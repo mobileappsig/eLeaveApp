@@ -12,5 +12,18 @@
     <string name="main_exit">Exit1</string> 
     <string name="main_report">Report</string> 
     <string name="main_help">Help</string>
+    
+    <string-array name="leaveDayType">
+        <item>Annual Leave</item>
+        <item>Sick Leave</item>
+    </string-array>
+    <string name="leaveDayType_prompt">Select a leave day type</string>
+    
+    <string-array name="leaveTime">
+        <item>Whole a day</item>
+        <item>Morning</item>
+        <item>Afternoon</item>
+    </string-array>
+    <string name="leaveTime_prompt">Select a leave time </string>
 
 </resources>
