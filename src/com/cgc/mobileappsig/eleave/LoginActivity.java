@@ -28,7 +28,7 @@ public class LoginActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 		Log.e("debug","onCreate!");
         btnlogin = (Button)findViewById(R.id.btn_login);
@@ -56,12 +56,12 @@ public class LoginActivity extends Activity {
             //Users/login
             EleaveAppClient.setTimeout(10000);
     		Log.e("debug","OnClickListener Login!");
-    		/*
-    		Intent cSwitchIntent = new Intent();
-			cSwitchIntent.setClass(LoginActivity.this,MainTabActivity.class);  
-            startActivity(cSwitchIntent);
-            LoginActivity.this.finish();*/
     		
+    		Intent cSwitchIntent = new Intent();
+			cSwitchIntent.setClass(LoginActivity.this,LoadingActivity.class);  
+            startActivity(cSwitchIntent);
+            LoginActivity.this.finish();
+            /*
             EleaveAppClient.post("Users/login", params, new AsyncHttpResponseHandler(){
             //EleaveAppClient.post("http://146.11.0.41:8080/eleaveAppServer/API/Users/login", params, new AsyncHttpResponseHandler(){
     		//EleaveAppClient.get("http://client.azrj.cn/json/cook/cook_list.jsp?type=1&p=2", new AsyncHttpResponseHandler(){
@@ -109,7 +109,7 @@ public class LoginActivity extends Activity {
                 };
 
             });
-
+*/
 		      
 			
 		}

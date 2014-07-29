@@ -2,10 +2,13 @@ package com.cgc.mobileappsig.eleave;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.app.TabActivity;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import android.content.Intent;
 import android.widget.TabHost;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -15,8 +18,10 @@ import android.view.View;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
+
 import com.cgc.mobileappsig.eleave.common.ExitApplication;
 
+@SuppressWarnings("deprecation")
 public class MainTabActivity extends TabActivity implements OnCheckedChangeListener {
 	private RadioGroup mainTab;
 	private TabHost tabhost;
@@ -70,6 +75,24 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
 		}
 	};
 	
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+    	if (event.getAction() == KeyEvent.ACTION_DOWN ) {  
+    		
+    		new AlertDialog.Builder(MainTabActivity.this)
+			 .setTitle("Info") 
+			 .setMessage("Are you sure to exit?")
+			.setPositiveButton("Yes", new DialogInterface.OnClickListener() { 
+		        public void onClick(DialogInterface dialog, int whichButton) { 
+		        	dialog.dismiss();
+		        	ExitApplication.getInstance().exit();
+		    }})
+			.setNegativeButton("No", null)
+			.show();
+    	}
+    	return false;
+    }
+
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		switch(checkedId){
