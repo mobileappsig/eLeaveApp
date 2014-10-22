@@ -23,7 +23,7 @@ import android.widget.LinearLayout.LayoutParams;
  */
 public class DateWidgetDayHeader extends View {
 	// 字体大小
-	private final static int fTextSize = 22;
+	private final static int fTextSize = 30;
 	private Paint pt = new Paint();
 	private RectF rect = new RectF();
 	private int iWeekDay = -1;
@@ -39,7 +39,7 @@ public class DateWidgetDayHeader extends View {
 
 		// 设置矩形大小
 		rect.set(0, 0, this.getWidth(), this.getHeight());
-		rect.inset(1, 1);
+		rect.inset(2, 2);
 
 		// 绘制日历头部
 		drawDayHeader(canvas);

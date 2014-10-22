@@ -2,12 +2,28 @@ package com.cgc.mobileappsig.eleave;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Hashtable;
+import java.util.Locale;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 
 
 
+
+
+
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONArray;
+
+import com.cgc.mobileappsig.eleave.common.EleaveAppClient;
 import com.cgc.mobileappsig.eleave.common.ExitApplication;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -25,6 +41,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.*;
 import android.content.Context;
+import android.content.Intent;
 
 public class ApplyActivity extends Activity {
 	//@Override  
@@ -133,11 +150,11 @@ public class ApplyActivity extends Activity {
 			
 
 			 //上边距（dp值） 
-	         int minHeight = dip2px(this, 54); 
+	         //int minHeight = dip2px(this, 54); 
 	         //上padding（dp值） 
-	         int topPadding = dip2px(this, 4); 
+	         int topPadding = dip2px(this, 1); 
 	         //左padding（dp值） 
-	         int leftPadding = dip2px(this, 2); 
+	         int leftPadding = dip2px(this, 1); 
 	         //按钮布局 
 			
 			LinearLayout.LayoutParams layoutSpinnerParms = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -149,8 +166,8 @@ public class ApplyActivity extends Activity {
 			
 			LinearLayout.LayoutParams layoutParamsSpinnerLeaveType = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT); 
 			layoutParamsSpinnerLeaveType.gravity = Gravity.TOP; 
-			layoutParamsSpinnerLeaveType.topMargin = dip2px(this, 10); 
-			layoutParamsSpinnerLeaveType.bottomMargin = dip2px(this, 5); 
+			layoutParamsSpinnerLeaveType.topMargin = dip2px(this, 1); 
+			layoutParamsSpinnerLeaveType.bottomMargin = dip2px(this, 1); 
 			layoutParamsSpinnerLeaveType.weight = 1; 
 			
 //	         //Button确定 
@@ -183,8 +200,8 @@ public class ApplyActivity extends Activity {
 	         
 	         LinearLayout.LayoutParams layoutParamsLeaveTime = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT); 
 	         layoutParamsLeaveTime.gravity = Gravity.BOTTOM; 
-	         layoutParamsLeaveTime.topMargin = dip2px(this, 5); 
-	         layoutParamsLeaveTime.bottomMargin = dip2px(this, 10); 
+	         layoutParamsLeaveTime.topMargin = dip2px(this, 0); 
+	         layoutParamsLeaveTime.bottomMargin = dip2px(this, 1); 
 	         layoutParamsLeaveTime.weight = 1; 
 	         //Button取消 
 //	         Button spinnerLeaveTime = new Button(this); 
@@ -238,7 +255,7 @@ public class ApplyActivity extends Activity {
 	         //Button确定 
 	         Button buttonSubmit = new Button(this); 
 	         buttonSubmit.setLayoutParams(layoutParamsButtonOK); 
-	         buttonSubmit.setMaxLines(2); 
+	         buttonSubmit.setMaxLines(1); 
 	         buttonSubmit.setTextSize(18); 
 	         buttonSubmit.setText("submit"); 
 	         layoutButton.addView(buttonSubmit); 
@@ -252,7 +269,7 @@ public class ApplyActivity extends Activity {
 	         //Button取消 
 	         Button buttonCancel = new Button(this); 
 	         buttonCancel.setLayoutParams(layoutParamsButtonCancel); 
-	         buttonCancel.setMaxLines(2); 
+	         buttonCancel.setMaxLines(1); 
 	         buttonCancel.setTextSize(18); 
 	         buttonCancel.setText("cancel"); 
 	          
@@ -343,8 +360,120 @@ public class ApplyActivity extends Activity {
 		   buttonSubmit.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
 				//do some process
-				Log.i("Anne", "Submit button is pressed.");
-			}
+				
+				String EmployeeNumber = LoginActivity.EmployeeNum+"";
+
+										         		      
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ENGLISH);       
+				Date curDate = new Date(System.currentTimeMillis()); //get current time        
+				String issuedDate = formatter.format(curDate);
+				//DateFormat curDate = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM);
+				//DateFormat curDate = DateFormat.getDateTimeInstance();
+				//String issuedDate = formatter.format(new Date());
+				Log.e("current time", issuedDate);
+				
+				
+				RequestParams params = new RequestParams();
+	            
+				
+				SelectedDayCells startSelectedDayCell, stopSelectedDayCell;
+					
+		        
+				int stopIndex = DateWidgetDayCell.selectedDayCells.size() - 1;
+		        
+				JSONObject jsObjs = new JSONObject();
+				JSONObject jsObjt = new JSONObject();
+				
+				JSONArray jsArr = new JSONArray();
+				
+				if (stopIndex >= 0){
+					
+					startSelectedDayCell =  DateWidgetDayCell.selectedDayCells.get(0);
+			        stopSelectedDayCell = DateWidgetDayCell.selectedDayCells.get(stopIndex);
+			           
+			        String startDay = Integer.toString(startSelectedDayCell.year) + "-" + Integer.toString(startSelectedDayCell.month + 1) + "-" + Integer.toString(startSelectedDayCell.day);
+			        String stopDay =  Integer.toString(stopSelectedDayCell.year) + "-" + Integer.toString(stopSelectedDayCell.month + 1) + "-" + Integer.toString(stopSelectedDayCell.day);	
+				
+					
+					//DateWidgetDayCell.printSelectedDays();
+				
+					try {		
+						
+						jsObjs.put("StartDay", startDay).put("StopDay", stopDay).put("HalfDayOrNot", "NULL").put("AmOrPm", "NULL");
+						jsArr.put(jsObjs);
+						jsObjt.put("EmployeeId", EmployeeNumber).put("LeavaTypeId","1").put("IssuedDate", issuedDate).put("LeaveDetail", jsArr);
+						
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+				}
+				else{
+					Toast.makeText(ApplyActivity.this, "Leave Date Required", Toast.LENGTH_SHORT).show();
+				}
+				
+				
+				
+				//JSONArray jsLeaveDetail = new JSONArray();
+				//String newRequestValue = "{\"EmployeeId\":EmployeeNumber,\"LeavaTypeId\":\"1\",\"IssuedDate\":issuedDate,\"LeaveDetail\":[{\"StartDay\":startDay,\"StopDay\":stopDay,\"HalfDayOrNot\":\"NULL\",\"AmOrPm\":\"NULL\"}]}";
+				
+				//Log.e("new Request Value", newRequestValue);
+				
+				//newRequest = JSON {EmployeeId, CaseId, LeavaTypeId, IssuedDate,  LeaveDetail: [{StartDay, StopDay, HalfDayOrNot, AmOrPm}]}
+				//params.put("newRequest", "{\"EmployeeId\":\"10000001\",\"LeavaTypeId\":\"1\",\"IssuedDate\":\"2014-10-16 16:55:00\",\"LeaveDetail\":[{\"StartDay\":\"2014-10-20\",\"StopDay\":\"2014-10-22\",\"HalfDayOrNot\":\"NULL\",\"AmOrPm\":\"NULL\"}]}");
+	            params.put("newRequest", jsObjt.toString());
+				params.put("type", "new");
+	            EleaveAppClient.setTimeout(10000);
+	    		Log.e("debug","Submit Request!");
+	    		
+	    		EleaveAppClient.post("Leave/submitleave", params, new AsyncHttpResponseHandler(){
+	    			
+	    			@Override
+	            	public void onSuccess(String response) {
+	            		Log.e("debug",response);
+	                    //Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+
+	            		if (response == null)
+	                        return;
+	                      try {
+	                        JSONObject jsonObject = new JSONObject(response);
+	                        int state = 104;
+	                        if(jsonObject.has("state")) state = jsonObject.getInt("state");
+
+	                        switch(state){
+	                        case 104:
+	                            String error = "";
+	                            if(jsonObject.has("msg")) error = jsonObject.getString("msg");
+	                            Toast.makeText(ApplyActivity.this, error,
+	                                Toast.LENGTH_SHORT).show();
+	                            break;
+	                        case 200:
+	                            int caseId = 0;
+	                            if(jsonObject.has("CaseId")) caseId = jsonObject.getInt("CaseId");
+	                        	String prompt = "Submitted Successfully!, CaseId is " + caseId + "";
+	                        	Toast.makeText(ApplyActivity.this, prompt,
+	                                Toast.LENGTH_SHORT).show();
+	                            break;
+	                          }
+	                      } catch (JSONException e) {
+	                          e.printStackTrace();
+	                      }
+	                          
+	                };
+	            	
+	            	public void onFailure(Throwable arg0) { 
+	            		Toast.makeText(ApplyActivity.this, "Submit Failure",Toast.LENGTH_LONG).show();
+	            		Log.e("debug",arg0.getMessage());
+	            	};
+	            	
+	            	public void onFinish() { 
+	            		
+	                };	    			
+	    			
+	    		});
+	    		
+				}
 			});
 			
 			
@@ -438,7 +567,7 @@ public class ApplyActivity extends Activity {
 
 	            ApplyActivity.this.mPos = pos;
 	            ApplyActivity.this.mSelection = parent.getItemAtPosition(pos).toString();
-	            Log.e("anne", ApplyActivity.this.mSelection);
+	            Log.e("Leave Type Info", ApplyActivity.this.mSelection);
 	          
 	        }
 
@@ -601,6 +730,7 @@ public class ApplyActivity extends Activity {
 			final int iSelectedMonth = calSelected.get(Calendar.MONTH);
 			final int iSelectedDay = calSelected.get(Calendar.DAY_OF_MONTH);
 			calCalendar.setTimeInMillis(calStartDate.getTimeInMillis());
+		
 			
 			for (int i = 0; i < days.size(); i++) {
 				final int iYear = calCalendar.get(Calendar.YEAR);
@@ -667,8 +797,51 @@ public class ApplyActivity extends Activity {
 
 		// 更新日历标题上显示的年月
 		private void UpdateCurrentMonthDisplay() {
-			String date = calStartDate.get(Calendar.YEAR) + "年"
-					+ (calStartDate.get(Calendar.MONTH) + 1) + "月";
+			
+			int CurMonth = calStartDate.get(Calendar.MONTH) + 1;
+			String EngCurMonth = "";
+			switch(CurMonth){
+				case 1:
+					EngCurMonth = "January";
+					break;
+				case 2:
+					EngCurMonth = "February";
+					break;
+				case 3:
+					EngCurMonth = "March";
+					break;
+				case 4:
+					EngCurMonth = "April";
+					break;
+				case 5:
+					EngCurMonth = "May";
+					break;
+				case 6:
+					EngCurMonth = "June";
+					break;
+				case 7:
+					EngCurMonth = "July";
+					break;
+				case 8:
+					EngCurMonth = "August";
+					break;
+				case 9:
+					EngCurMonth = "September";
+					break;
+				case 10:
+					EngCurMonth = "October";
+					break;
+				case 11:
+					EngCurMonth = "November";
+					break;
+				case 12:
+					EngCurMonth = "December";
+					break;
+			}
+				
+				
+			String date = EngCurMonth + "," + calStartDate.get(Calendar.YEAR);
+			Top_Date.setMaxLines(1);
 			Top_Date.setText(date);
 		}
 

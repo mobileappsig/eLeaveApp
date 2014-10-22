@@ -55,6 +55,7 @@ public class DateWidgetDayCell extends View {
 		final int iSelectedMonth = calSelected.get(Calendar.MONTH);
 		final int iSelectedDay = calSelected.get(Calendar.DAY_OF_MONTH);
 		
+		
 		SelectedDayCells tempSelectedDayCell;
 		
 		for(int i = 0; i < selectedDayCells.size(); i++){
@@ -114,6 +115,7 @@ public class DateWidgetDayCell extends View {
 			tempSelectedDayCell =  selectedDayCells.get(i);
 			
 			Log.i("Anne", "year:"+ (new Integer(tempSelectedDayCell.year)).toString() + "month:" + (new Integer(tempSelectedDayCell.month)).toString() + "day:" +(new Integer(tempSelectedDayCell.day)).toString());
+			
             }
 	}
 
@@ -247,8 +249,8 @@ public class DateWidgetDayCell extends View {
 	public static int getColorBkg(boolean bHoliday, boolean bToday) {
 		if (bToday)
 			return ApplyActivity.isToday_BgColor;
-		// if (bHoliday) //如需周末有特殊背景色，可去掉注释
-		// return Calendar_TestActivity.isHoliday_BgColor;
+		//if (bHoliday) //如需周末有特殊背景色，可去掉注释
+		 //return Calendar_TestActivity.isHoliday_BgColor;
 		return ApplyActivity.Calendar_DayBgColor;
 	}
 
@@ -330,4 +332,8 @@ final class SelectedDayCells{
 	int year = 0;
 	int month = 0;
 	int day = 0;
+	
+	int leaveType = 1;
+	boolean halfDay = false;
+	boolean dayAm = false;
 }

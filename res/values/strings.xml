@@ -12,16 +12,23 @@
     <string name="main_exit">Exit1</string> 
     <string name="main_report">Report</string> 
     <string name="main_help">Help</string>
+    <string name="leave_info">Leave Information</string>
+    <string name="home_welcome">Welcome</string>
     <string name="main_style">" \n \nEleave，是一个请假方式\n \n "</string>
     
     <string-array name="leaveDayType">
         <item>Annual Leave</item>
         <item>Sick Leave</item>
+        <item>Unpaid Leave of Absence</item>
+        <item>Marriage Leave</item>
+        <item>Maternity Leave</item>
+        <item>Paternity Leave</item>
+        <item>Compassionate Leave</item>
     </string-array>
     <string name="leaveDayType_prompt">Select a leave day type</string>
     
     <string-array name="leaveTime">
-        <item>Whole a day</item>
+        <item>Whole Day</item>
         <item>Morning</item>
         <item>Afternoon</item>
     </string-array>

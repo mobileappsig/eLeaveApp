@@ -1,5 +1,6 @@
 package com.cgc.mobileappsig.eleave;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,6 +25,8 @@ import com.cgc.mobileappsig.eleave.common.ExitApplication;
 
 public class LoginActivity extends Activity {
 	private Button btnlogin=null;
+	public static int EmployeeNum = 0;
+	public static String EmployeeRole = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +51,22 @@ public class LoginActivity extends Activity {
 			
 			EditText userid = (EditText)findViewById(R.id.et_eid);
 			EditText password = (EditText)findViewById(R.id.et_pass);
-			String suid = userid.getText().toString();
+			String suid = userid.getText().toString().toUpperCase().trim();
 			String spass = password.getText().toString();
             RequestParams params = new RequestParams();
-            params.put("usereid", suid);
+            params.put("EID", suid);
             params.put("password", spass);
             //Users/login
             EleaveAppClient.setTimeout(10000);
     		Log.e("debug","OnClickListener Login!");
     		
+    		/*
     		Intent cSwitchIntent = new Intent();
 			cSwitchIntent.setClass(LoginActivity.this,LoadingActivity.class);  
             startActivity(cSwitchIntent);
             LoginActivity.this.finish();
-            /*
+            */
+    		
             EleaveAppClient.post("Users/login", params, new AsyncHttpResponseHandler(){
             //EleaveAppClient.post("http://146.11.0.41:8080/eleaveAppServer/API/Users/login", params, new AsyncHttpResponseHandler(){
     		//EleaveAppClient.get("http://client.azrj.cn/json/cook/cook_list.jsp?type=1&p=2", new AsyncHttpResponseHandler(){
@@ -85,10 +90,21 @@ public class LoginActivity extends Activity {
                                 Toast.LENGTH_SHORT).show();
                             break;
                         case 200:
-                            Toast.makeText(LoginActivity.this, "Login successfully!",
-                                Toast.LENGTH_SHORT).show();
-                    		Intent cSwitchIntent = new Intent();
-                			cSwitchIntent.setClass(LoginActivity.this,MainTabActivity.class);  
+                            //Toast.makeText(LoginActivity.this, "Login successfully!",
+                            //    Toast.LENGTH_SHORT).show();
+                        	
+                        	JSONArray  RoleNum = new JSONArray();
+                            RoleNum = jsonObject.getJSONArray("ResultSet");
+                            JSONObject detailItem = RoleNum.getJSONObject(0);
+                     
+                        	if(detailItem.has("EmployeeId")) EmployeeNum = detailItem.getInt("EmployeeId");                  	     
+                        	Log.e("Employee Number", EmployeeNum+"");
+                        	
+                        	if(detailItem.has("Role")) EmployeeRole = detailItem.getString("Role");                  	     
+                        	Log.e("Employee Role", EmployeeRole);
+                        	
+                        	Intent cSwitchIntent = new Intent();
+                			cSwitchIntent.setClass(LoginActivity.this,LoadingActivity.class);  
                             startActivity(cSwitchIntent);
                             LoginActivity.this.finish();
                             break;
@@ -100,7 +116,7 @@ public class LoginActivity extends Activity {
                 };
             	
             	public void onFailure(Throwable arg0) { 
-            		Toast.makeText(LoginActivity.this, "onFailure",Toast.LENGTH_LONG).show();
+            		Toast.makeText(LoginActivity.this, "on Failure",Toast.LENGTH_LONG).show();
             		Log.e("debug",arg0.getMessage());
             	};
             	
@@ -109,7 +125,7 @@ public class LoginActivity extends Activity {
                 };
 
             });
-*/
+
 		      
 			
 		}

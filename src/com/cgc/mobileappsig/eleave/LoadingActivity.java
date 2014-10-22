@@ -24,7 +24,7 @@ public class LoadingActivity extends Activity{
 			Intent intent = new Intent (LoadingActivity.this,Whatsnew.class);			
 			startActivity(intent);			
 			LoadingActivity.this.finish();
-			Toast.makeText(getApplicationContext(), "µÇÂ¼³É¹¦", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_SHORT).show();
 		}
 	}, 200);
    }
