@@ -5,8 +5,10 @@ import java.util.Calendar;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Shader;
@@ -18,10 +20,9 @@ import android.view.animation.AlphaAnimation;
 import android.widget.LinearLayout.LayoutParams;
 
 
-
 public class DateWidgetDayCell extends View {
 	// 字体大小
-	private static final int fTextSize = 28;
+	private static final int fTextSize =35;
 	
 	// 基本元素
 	private OnItemClick itemClick = null;
@@ -41,16 +42,24 @@ public class DateWidgetDayCell extends View {
 	private boolean bTouchedDown = false;
 	private boolean bHoliday = false;
 	private boolean hasRecord = false;
+	private boolean isAm = false;
+	private boolean isPm = false;
 
 	public static int ANIM_ALPHA_DURATION = 100;
 	
 	// Anne's code
 	// Add the code to support more than one days are selected.
 	
+	//public int selectedLeaveType = 1;
+	//public boolean selectedHalfDay = false;
+ 	//public boolean selectedDayAm = false;
+ 	public boolean bAmOrPm = false;
+ 	public boolean bMorning = false;
+ 	public boolean bAfternoon = false;
 	
 	public static ArrayList<SelectedDayCells> selectedDayCells = new ArrayList<SelectedDayCells>();
 	
-	public static void addSelectedDay(Calendar calSelected){
+	public void addSelectedDay(Calendar calSelected){
 		final int iSelectedYear = calSelected.get(Calendar.YEAR);
 		final int iSelectedMonth = calSelected.get(Calendar.MONTH);
 		final int iSelectedDay = calSelected.get(Calendar.DAY_OF_MONTH);
@@ -68,8 +77,7 @@ public class DateWidgetDayCell extends View {
 				selectedDayCells.remove(i);
 				return;
 			}
-		}
-		
+		}  		
 		
 		//The day is not selected before, then select it now.
 		
@@ -77,6 +85,9 @@ public class DateWidgetDayCell extends View {
 		selectedDay.year = iSelectedYear;
 		selectedDay.month = iSelectedMonth;
 		selectedDay.day = iSelectedDay;
+		selectedDay.leaveType = ApplyActivity.selectedLeaveType;
+		selectedDay.halfDay = ApplyActivity.selectedHalfDay;
+		selectedDay.dayAm = ApplyActivity.selectedDayAm;
 		selectedDayCells.add(selectedDay);
 
 	}
@@ -128,6 +139,8 @@ public class DateWidgetDayCell extends View {
 		super(context);
 		setFocusable(true);
 		setLayoutParams(new LayoutParams(iWidth, iHeight));
+		//added by ezzgxxo
+		//setWillNotDraw(false);
 	}
 
 	// 取变量值
@@ -142,7 +155,7 @@ public class DateWidgetDayCell extends View {
 
 	// 设置变量值
 	public void setData(int iYear, int iMonth, int iDay, Boolean bToday,
-			Boolean bHoliday, int iActiveMonth, boolean hasRecord) {
+			Boolean bHoliday, int iActiveMonth, boolean hasRecord, boolean isAm, boolean isPm) {
 		iDateYear = iYear;
 		iDateMonth = iMonth;
 		iDateDay = iDay;
@@ -152,6 +165,8 @@ public class DateWidgetDayCell extends View {
 		this.bToday = bToday;
 		this.bHoliday = bHoliday;
 		this.hasRecord = hasRecord;
+		this.isAm = isAm;
+		this.isPm = isPm;
 	}
 
 	// 重载绘制方法
@@ -159,12 +174,15 @@ public class DateWidgetDayCell extends View {
 	protected void onDraw(Canvas canvas) {
 		// TODO Auto-generated method stub
 		super.onDraw(canvas);
-
+		
+		//setWillNotDraw(false);
 		rect.set(0, 0, this.getWidth(), this.getHeight());
 		rect.inset(1, 1);
 
 		final boolean bFocused = IsViewFocused();
-
+		
+		//added by ezzgxxo
+		invalidate();
 		drawDayView(canvas, bFocused);
 		drawDayNumber(canvas);
 	}
@@ -184,13 +202,31 @@ public class DateWidgetDayCell extends View {
 						0xffaa5500, 0xffffddbb, Shader.TileMode.CLAMP);
 			}
 
-			if (bSelected) {
+			if (bSelected) {				
+					
+//				if (bAfternoon == true){
+//					lGradBkg = new LinearGradient(rect.left, 0, rect.right, 0,
+//							0xff112233, 0xffddccaa, Shader.TileMode.CLAMP);
+//				}
+//					
+//				if (bMorning == true){
+//					lGradBkg = new LinearGradient(rect.left, 0, rect.right, 0,
+//							0xffabcdef, 0xffaaccdd, Shader.TileMode.CLAMP);
+//				}
+//				
+//				if (bMorning == false && bAfternoon == false){
+//					lGradBkg = new LinearGradient(rect.left, 0, rect.right, 0,
+//							0xff225599, 0xff4455ff, Shader.TileMode.CLAMP);
+//
+//				}
+				
 				lGradBkg = new LinearGradient(rect.left, 0, rect.right, 0,
-						0xff225599, 0xffbbddff, Shader.TileMode.CLAMP);
-//				lGradBkg = new LinearGradient(rect.left, 0, rect.right, 0,
-//						0xffaa5500, 0xffffddbb, Shader.TileMode.CLAMP);
-			}
-
+				0xffaa5500, 0xffffddbb, Shader.TileMode.CLAMP);					
+				
+				}		
+						
+							
+					
 			if (lGradBkg != null) {
 				pt.setShader(lGradBkg);
 				canvas.drawRect(rect, pt);
@@ -225,18 +261,51 @@ public class DateWidgetDayCell extends View {
 		if (!bIsActiveMonth)
 			pt.setColor(ApplyActivity.unPresentMonth_FontColor);
 
-		if (bToday)
+		if (bToday){
 			pt.setUnderlineText(true);
-
+			pt.setTextSize(fTextSize+10);
+			pt.setColor(Color.RED);
+		}
+		
+//		if (bHoliday){
+//			pt.setColor(Color.RED);
+//			//pt.setUnderlineText(true);
+//		}
+		//if (bHoliday && ApplyActivity.isCurrentMonthSatSun )
+			
+		
 		final int iPosX = (int) rect.left + ((int) rect.width() >> 1)
 				- ((int) pt.measureText(sDate) >> 1);
 
 		final int iPosY = (int) (this.getHeight()
 				- (this.getHeight() - getTextHeight()) / 2 - pt
 				.getFontMetrics().bottom);
-
+		
+		if(ApplyActivity.isCancelPressed == true){
+			canvas.drawText(sDate, iPosX, iPosY, pt);
+			invalidate();
+		}
+				
+		if (bSelected == true){
+			
+//			Log.e("Morning", bMorning+"");
+//			Log.e("Afternoon", bAfternoon+"");
+			
+			if (bMorning == false && bAfternoon == false) {
+				canvas.drawText(sDate, iPosX, iPosY, pt);
+			}	
+			
+			if (bMorning == true){
+				canvas.drawText(sDate+"AM", iPosX, iPosY, pt);
+			}
+			
+			if (bAfternoon == true){
+				canvas.drawText(sDate+"PM", iPosX, iPosY, pt);
+			}						
+		}
+			
 		canvas.drawText(sDate, iPosX, iPosY, pt);
-
+		
 		pt.setUnderlineText(false);
 	}
 
@@ -247,20 +316,51 @@ public class DateWidgetDayCell extends View {
 
 	// 根据条件返回不同颜色值
 	public static int getColorBkg(boolean bHoliday, boolean bToday) {
-		if (bToday)
-			return ApplyActivity.isToday_BgColor;
-		//if (bHoliday) //如需周末有特殊背景色，可去掉注释
-		 //return Calendar_TestActivity.isHoliday_BgColor;
+		
+		int tempColor = 0;
+		
+		if(bToday)
+			tempColor = ApplyActivity.isToday_BgColor;
+		
+		if(bHoliday)
+			tempColor = ApplyActivity.isHoliday_BgColor;
+			//Calendar_DayBgColor;
+		//如需周末有特殊背景色，可去掉注释
+		 //return Calendar_TestActivity.isHoliday_BgColor;			
 		return ApplyActivity.Calendar_DayBgColor;
 	}
 
 	// 设置是否被选中
-	@Override
+	//@Override
 	public void setSelected(boolean bEnable) {
 		if (this.bSelected != bEnable) {
 			this.bSelected = bEnable;
-			this.invalidate();
 		}
+	}
+	
+	public void setAmorPm()
+	{	
+			if(ApplyActivity.selectedHalfDay == true)
+			{
+				
+				if(ApplyActivity.selectedDayAm == true){
+					bMorning = true;
+					bAfternoon = false;
+					//Log.e("Morning", bMorning+"");		
+				}
+				else{
+					
+					bAfternoon = true;
+					bMorning = false;
+					//Log.e("Afternoon", bAfternoon+"");
+				}
+					
+			}
+			else{
+				bAfternoon = false;
+				bMorning = false;
+			}
+
 	}
 
 	public void setItemClick(OnItemClick itemClick) {

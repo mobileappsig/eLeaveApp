@@ -2,6 +2,7 @@ package com.cgc.mobileappsig.eleave;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.View;
@@ -59,6 +60,9 @@ public class DateWidgetDayHeader extends View {
 		
 		// draw day name
 		final String sDayName = DayStyle.getWeekDayName(iWeekDay);
+		
+		if (sDayName.equals("Sat") || sDayName.equals("Sun")) pt.setColor(Color.RED); 
+		
 		final int iPosX = (int) rect.left + ((int) rect.width() >> 1)
 				- ((int) pt.measureText(sDayName) >> 1);
 		final int iPosY = (int) (this.getHeight()

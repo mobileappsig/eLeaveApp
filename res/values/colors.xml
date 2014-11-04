@@ -6,7 +6,14 @@
     <color name="text_minor">#ff666666</color>
     <color name="application_backcolor">#fff6eade</color>
     <color name="login_font">#3D3E40</color>
-
+    
+    <!-- 主应用程序 -->
+    <color name="light_black">#1A1A1A</color>
+    <color name="orange">#ff6633</color>
+    <color name="light_gray">#2382E0</color>
+    <color name="middle_gray">#E0EFEF</color>
+    <color name="light_blue">#225599</color> 
+    
     <!-- 日历 -->
     <color name="calendar_background">#000000</color>
     <color name="recordremind_background">#FFFFFF</color>

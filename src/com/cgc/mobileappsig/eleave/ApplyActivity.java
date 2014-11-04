@@ -8,20 +8,13 @@ import java.util.Locale;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-
-
-
-
-
-
-
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
 import com.cgc.mobileappsig.eleave.common.EleaveAppClient;
 import com.cgc.mobileappsig.eleave.common.ExitApplication;
+import com.cgc.mobileappsig.eleave.DateWidgetDayCell;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -43,7 +36,7 @@ import android.widget.*;
 import android.content.Context;
 import android.content.Intent;
 
-public class ApplyActivity extends Activity {
+public class ApplyActivity extends Activity{
 	//@Override  
  //  protected void onCreate(Bundle savedInstanceState) {  
 //        // TODO Auto-generated method stub  
@@ -60,6 +53,8 @@ public class ApplyActivity extends Activity {
 		// 生成日历，外层容器
 		private LinearLayout layContent = null;
 		private ArrayList<DateWidgetDayCell> days = new ArrayList<DateWidgetDayCell>();
+	    //private static ArrayList<DateWidgetDayCell.DateWidgetDayCell.DateWidgetDayCell.selectedDayCells> DateWidgetDayCell.DateWidgetDayCell.DateWidgetDayCell.selectedDayCells = new ArrayList<DateWidgetDayCell.DateWidgetDayCell.DateWidgetDayCell.selectedDayCells>();
+		
 
 		// 日期变量
 		public static Calendar calStartDate = Calendar.getInstance();
@@ -71,14 +66,22 @@ public class ApplyActivity extends Activity {
 		private int iMonthViewCurrentMonth = 0;
 		private int iMonthViewCurrentYear = 0;
 		private int iFirstDayOfWeek = Calendar.MONDAY;
+		
+		
 
 		private int Calendar_Width = 0;
-		private int Cell_Width = 0;
+		private static int Cell_Width = 0;
 		
 		protected ArrayAdapter<CharSequence> mAdapter;
 		protected int mPos;
-		protected String mSelection;
-
+		//protected String mSelection;
+		public static String mSelection;
+		
+//		private static JSONArray jsArrDays = new JSONArray();
+//		private static JSONObject jsObjd = new JSONObject();
+//		
+//		private static int s = 0, t = 0, index = 0;
+		
 
 		// 页面控件
 		TextView Top_Date = null;
@@ -107,6 +110,14 @@ public class ApplyActivity extends Activity {
 		public static int special_Reminder = 0;
 		public static int common_Reminder = 0;
 		public static int Calendar_WeekFontColor = 0;
+		public static boolean isCurrentMonthSatSun = false;
+		public static boolean isCancelPressed = false;
+		public static boolean isPrevNextMonth = false;
+		
+		public static int selectedLeaveType = 1;
+		public static boolean selectedHalfDay = false;
+	 	public static boolean selectedDayAm = false;
+	 	public static boolean selectedDayPm = false;
 		
 
 		String UserName = "";
@@ -136,7 +147,13 @@ public class ApplyActivity extends Activity {
 			// 声明控件，并绑定事件
 			Top_Date = (TextView) findViewById(R.id.Top_Date);
 			btn_pre_month = (Button) findViewById(R.id.btn_pre_month);
+			btn_pre_month.setScaleX(2.0f);
+			btn_pre_month.setScaleY(2.0f);
+			
 			btn_next_month = (Button) findViewById(R.id.btn_next_month);
+			btn_next_month.setScaleX(2.0f);
+			btn_next_month.setScaleY(2.0f);
+			
 			btn_pre_month.setOnClickListener(new Pre_MonthOnClickListener());
 			btn_next_month.setOnClickListener(new Next_MonthOnClickListener());
 
@@ -163,6 +180,7 @@ public class ApplyActivity extends Activity {
 			layoutSpinner.setLayoutParams(layoutSpinnerParms);
 			layoutSpinner.setOrientation(LinearLayout.VERTICAL);
 			layoutSpinner.setPadding(leftPadding, topPadding, leftPadding, topPadding); 
+			layoutSpinner.setBackgroundResource(R.color.light_gray);
 			
 			LinearLayout.LayoutParams layoutParamsSpinnerLeaveType = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT); 
 			layoutParamsSpinnerLeaveType.gravity = Gravity.TOP; 
@@ -189,6 +207,8 @@ public class ApplyActivity extends Activity {
 
 	         spinnerLeaveType.setAdapter(this.mAdapter);
 	         layoutSpinner.addView(spinnerLeaveType);
+	         
+	         Log.e("Spinner Leave Type", spinnerLeaveType.getSelectedItem().toString());
 	          
 	         OnItemSelectedListener spinnerListener = new myOnItemSelectedListener(this,this.mAdapter);
 
@@ -201,7 +221,7 @@ public class ApplyActivity extends Activity {
 	         LinearLayout.LayoutParams layoutParamsLeaveTime = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT); 
 	         layoutParamsLeaveTime.gravity = Gravity.BOTTOM; 
 	         layoutParamsLeaveTime.topMargin = dip2px(this, 0); 
-	         layoutParamsLeaveTime.bottomMargin = dip2px(this, 1); 
+	         layoutParamsLeaveTime.bottomMargin = dip2px(this, 0); 
 	         layoutParamsLeaveTime.weight = 1; 
 	         //Button取消 
 //	         Button spinnerLeaveTime = new Button(this); 
@@ -231,20 +251,26 @@ public class ApplyActivity extends Activity {
 
 	         spinnerLeaveTime.setOnItemSelectedListener(spinnerListener2);
 	         
+	         Log.e("Spinner Leave Time", spinnerLeaveTime.getSelectedItem().toString());
+	         
 	         mainLayout.addView(layoutSpinner, layoutParamsLeaveTime);
 			
 			
 			//arrange_layout = new RelativeLayout(this);
 			int widthMain = dip2px(this, 240);
 			layoutButton = new LinearLayout(this);
-			LinearLayout.LayoutParams layoutButtonParms = new LinearLayout.LayoutParams(widthMain, LayoutParams.WRAP_CONTENT);
+			//LinearLayout.LayoutParams layoutButtonParms = new LinearLayout.LayoutParams(widthMain, LayoutParams.WRAP_CONTENT);
+			LinearLayout.LayoutParams layoutButtonParms = new LinearLayout.LayoutParams(screenWidth, LayoutParams.WRAP_CONTENT);
 			layoutButtonParms.gravity = Gravity.CENTER_HORIZONTAL;
+		
 			
 			
 			layoutButton.setLayoutParams(layoutButtonParms);
 			layoutButton.setOrientation(LinearLayout.HORIZONTAL);
-			layoutButton.setPadding(leftPadding, topPadding, leftPadding, topPadding); 
+			//layoutButton.setPadding(leftPadding, topPadding, leftPadding, topPadding); 
+			layoutButton.setPadding(0, 0, 0, 0); 
 			layoutButton.setId(100000001); 
+			layoutButton.setBackgroundResource(R.color.light_gray);
 			
 			
 			LinearLayout.LayoutParams layoutParamsButtonOK = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT); 
@@ -351,15 +377,288 @@ public class ApplyActivity extends Activity {
 //			arrange_layout.addView(cancel,lp1);		    
 //			arrange_layout.addView(submit,lp2);
 //			
+	           
 			
-			
-		   mainLayout.setBackgroundColor(Color.WHITE);
-			
-			
+		   mainLayout.setBackgroundColor(Color.WHITE);		   
 						
 		   buttonSubmit.setOnClickListener(new OnClickListener(){
-			public void onClick(View v){
-				//do some process
+			  
+			   public void onClick(View v){
+				  
+				  int numOfSelectedDays = DateWidgetDayCell.selectedDayCells.size();
+				  
+				  if (numOfSelectedDays == 0) Toast.makeText(ApplyActivity.this, "Leave Dates Required", Toast.LENGTH_SHORT).show();
+				   
+				  for( int j = 0; j < DateWidgetDayCell.selectedDayCells.size(); j++)
+		     		{
+		     			String msg = "year " + DateWidgetDayCell.selectedDayCells.get(j).year; 
+		     				   msg += " month " + (DateWidgetDayCell.selectedDayCells.get(j).month + 1);
+		     				   msg += " day " + DateWidgetDayCell.selectedDayCells.get(j).day;
+		     				   msg += " leave type " + DateWidgetDayCell.selectedDayCells.get(j).leaveType;
+		     				   msg += " half day " + DateWidgetDayCell.selectedDayCells.get(j).halfDay;
+		     				   msg += " day am " + DateWidgetDayCell.selectedDayCells.get(j).dayAm;
+		     				   
+		    			Log.e("selected leave information:", msg);		
+		     		}	 	
+			 
+	
+				ArrayList<SelectedDayCells> pickedDay =  DateWidgetDayCell.selectedDayCells;
+				  
+				int numDays  = pickedDay.size();
+				
+				JSONArray jsArrDays = new JSONArray();
+				
+				int s = 0, t = 0, index = 0;
+				
+				boolean w = false;
+				
+				String startDate = "", stopDate = "";
+				int isHalfDay = 0, isAm = 0;
+					
+				Log.e("numDays: ", numDays+"");
+				
+				for(int i = 0; i < numDays; i++){
+					
+					startDate = Integer.toString(pickedDay.get(i).year) + "-" + Integer.toString(pickedDay.get(i).month + 1) + "-" + Integer.toString(pickedDay.get(i).day);
+					stopDate  = Integer.toString(pickedDay.get(i).year) + "-" + Integer.toString(pickedDay.get(i).month + 1) + "-" + Integer.toString(pickedDay.get(i).day);
+							
+					//simple way to submit leave requests, store each day into an array
+					if(pickedDay.get(i).halfDay == false )
+						isHalfDay = 0;
+					else
+						isHalfDay = 1;
+					
+					if(pickedDay.get(i).dayAm == true)
+						isAm = 1;
+					else
+						isAm =0;
+					
+					try {
+						jsArrDays.put(index,new JSONObject().put("StartDay", startDate).put("StopDay", stopDate).put("HalfDayOrNot", isHalfDay).put("AmOrPm", isAm));
+						index++;
+					}catch (JSONException e) {
+						// TODO Auto-generated catch block
+							e.printStackTrace();
+						}	
+					}
+					
+////complicated way to calculate consecutive whole days, not very robust
+////					whole day?
+//					if(pickedDay.get(i).halfDay == false ){
+//						
+//						if (w == false ){
+//							t = i;
+//							s = i;
+//							w = true;
+//							
+//							//1 day whole day? not consecutive
+//							if ( t  == numDays - 1){
+//
+//								//Log.e("t :", t+"");
+//								startDate = Integer.toString(pickedDay.get(s).year) + "-" + Integer.toString(pickedDay.get(s).month + 1) + "-" + Integer.toString(pickedDay.get(s).day);
+//								stopDate  = Integer.toString(pickedDay.get(t).year) + "-" + Integer.toString(pickedDay.get(t).month + 1) + "-" + Integer.toString(pickedDay.get(t).day);
+//								isHalfDay = 0;
+//								isAm = 0;
+//								try {
+//									jsArrDays.put(index,new JSONObject().put("StartDay", startDate).put("StopDay", stopDate).put("HalfDayOrNot", isHalfDay).put("AmOrPm", isAm));
+//									index++;
+//								} catch (JSONException e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								}											
+//								t = s = 0;	
+//								w = false;
+//								
+//							}
+//														
+//						}
+//						else{
+//							t++;
+//							// multiple whole leave days selected 
+//
+//							
+//							Calendar startCalendar = Calendar.getInstance();
+//							Calendar stopCalendar = Calendar.getInstance();
+//							
+//							startCalendar.set(Calendar.YEAR, pickedDay.get(s).year);
+//							startCalendar.set(Calendar.MONTH,pickedDay.get(s).month);
+//							startCalendar.set(Calendar.DAY_OF_MONTH, pickedDay.get(s).day);
+//							
+//																
+//							stopCalendar.set(Calendar.YEAR, pickedDay.get(t).year);
+//							stopCalendar.set(Calendar.MONTH,pickedDay.get(t).month);
+//							stopCalendar.set(Calendar.DAY_OF_MONTH, pickedDay.get(t).day);
+//							
+//							
+//							int dayStart = startCalendar.get(Calendar.DAY_OF_YEAR);
+//							int dayStop = stopCalendar.get(Calendar.DAY_OF_YEAR);	
+//							int dayInterval = dayStop - dayStart;			
+//														
+//							Log.e("day Start:", dayStart+"");
+//							Log.e("day Stop:", dayStop+"" );
+//							
+//							//consecutive days selected
+//							if (dayInterval == t && t == numDays - 1){
+//
+//									Log.e("day Interval:", dayInterval+"");
+//									Log.e("t0 :", t+"");
+//									if (dayInterval != 2 ){
+//										startDate = Integer.toString(pickedDay.get(s).year) + "-" + Integer.toString(pickedDay.get(s).month + 1) + "-" + Integer.toString(pickedDay.get(s).day);
+//										stopDate  = Integer.toString(pickedDay.get(t).year) + "-" + Integer.toString(pickedDay.get(t).month + 1) + "-" + Integer.toString(pickedDay.get(t).day);
+//										isHalfDay = 0;
+//										isAm = 0;
+//										try {
+//											jsArrDays.put(index,new JSONObject().put("StartDay", startDate).put("StopDay", stopDate).put("HalfDayOrNot", isHalfDay).put("AmOrPm", isAm));
+//											index++;
+//										} catch (JSONException e) {
+//											// TODO Auto-generated catch block
+//											e.printStackTrace();
+//										}	
+//									}
+//									else{
+//										startDate = Integer.toString(pickedDay.get(s).year) + "-" + Integer.toString(pickedDay.get(s).month + 1) + "-" + Integer.toString(pickedDay.get(s).day);
+//										stopDate  = Integer.toString(pickedDay.get(t).year) + "-" + Integer.toString(pickedDay.get(t).month + 1) + "-" + Integer.toString(pickedDay.get(t).day);
+//										
+//										isHalfDay = 0;
+//										isAm = 0;
+//										try {
+//											jsArrDays.put(index,new JSONObject().put("StartDay", startDate).put("StopDay", startDate).put("HalfDayOrNot", isHalfDay).put("AmOrPm", isAm));
+//											index++;
+//											
+//											jsArrDays.put(index,new JSONObject().put("StartDay", stopDate).put("StopDay", stopDate).put("HalfDayOrNot", isHalfDay).put("AmOrPm", isAm));
+//											index++;
+//										} catch (JSONException e) {
+//											// TODO Auto-generated catch block
+//											e.printStackTrace();
+//										}	
+//										
+//									}
+//									w = false;
+//									t = s = 0;
+//																		
+//								}
+//							//not consecutive whole days
+//							else if( dayInterval > t ){
+//								
+//								Log.e("day Interval:", dayInterval+"");
+//								Log.e("t1 :", t+"");
+//								
+//								startDate = Integer.toString(pickedDay.get(s).year) + "-" + Integer.toString(pickedDay.get(s).month + 1) + "-" + Integer.toString(pickedDay.get(s).day);
+//								
+//								if(t >= 1){
+//									stopDate  = Integer.toString(pickedDay.get(t-1).year) + "-" + Integer.toString(pickedDay.get(t-1).month + 1) + "-" + Integer.toString(pickedDay.get(t-1).day);	
+//								}
+//								else
+//									stopDate = startDate;
+//								
+//								
+//								isHalfDay = 0;
+//								isAm = 0;
+//								try {
+//									jsArrDays.put(index,new JSONObject().put("StartDay", startDate).put("StopDay", stopDate).put("HalfDayOrNot", isHalfDay).put("AmOrPm", isAm));
+//									Log.e("hello", "Hello");
+//									index++;
+//								} catch (JSONException e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								}	
+//								
+//								w = true;
+//								s = t;
+//								Log.e("s= ", s+"");
+//																									
+//							}
+//							
+//							//reach the end of selected days							
+//							if( t == numDays - 1){
+//								
+//								startDate = Integer.toString(pickedDay.get(s).year) + "-" + Integer.toString(pickedDay.get(s).month + 1) + "-" + Integer.toString(pickedDay.get(s).day);
+//								stopDate  = Integer.toString(pickedDay.get(t).year) + "-" + Integer.toString(pickedDay.get(t).month + 1) + "-" + Integer.toString(pickedDay.get(t).day);									
+//								
+//								isHalfDay = 0;
+//								isAm = 0;
+//								try {
+//									jsArrDays.put(index,new JSONObject().put("StartDay", startDate).put("StopDay", stopDate).put("HalfDayOrNot", isHalfDay).put("AmOrPm", isAm));
+//									index++;
+//								} catch (JSONException e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								}	
+//								
+//								w = false;		
+//						}
+//														
+//						}
+//					}
+//					
+//					//half day taken
+//					else{														
+//						//store whole days if required before half days
+//						//which means mix days taken(whole day & half day)
+//						// t == s, only 1 whole day before half days
+//						if ( ((t - s >= 1) || (t == s)) && w == true ){
+//							startDate = Integer.toString(pickedDay.get(s).year) + "-" + Integer.toString(pickedDay.get(s).month + 1) + "-" + Integer.toString(pickedDay.get(s).day);
+//							stopDate  = Integer.toString(pickedDay.get(t).year) + "-" + Integer.toString(pickedDay.get(t).month + 1) + "-" + Integer.toString(pickedDay.get(t).day);
+//							isHalfDay = 0;
+//							isAm = 0;
+//							try {
+//								jsArrDays.put(index, new JSONObject().put("StartDay", startDate).put("StopDay", stopDate).put("HalfDayOrNot", isHalfDay).put("AmOrPm", isAm));
+//								index++;
+//							} catch (JSONException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
+//							
+//							t = s = 0;
+//							w = false;
+//							
+//						}
+//						
+//						//half days selected
+//						startDate = stopDate = Integer.toString(pickedDay.get(i).year) + "-" + Integer.toString(pickedDay.get(i).month + 1) + "-" + Integer.toString(pickedDay.get(i).day);
+//						isHalfDay = 1; //pickedDay.get(i).halfDay;
+//						if(pickedDay.get(i).dayAm)
+//							isAm = 1 ;
+//						else
+//							isAm = 0;
+//						w = false;
+//						try {
+//							jsArrDays.put(index, new JSONObject().put("StartDay", startDate).put("StopDay", stopDate).put("HalfDayOrNot", isHalfDay).put("AmOrPm", isAm));
+//							index++;
+//								
+//						} catch (JSONException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//							
+//						}																									
+//					
+//				}								
+//							
+//				
+//				for (int k = 0; k < jsArrDays.length(); k++) {
+//
+//					try {
+//						
+//						JSONObject detailItem = jsArrDays.getJSONObject(k);
+//						String strStartDate = detailItem.getString("StartDay");
+//		    	    	String strStopDate = detailItem.getString("StopDay");
+//		    	    	String halfDay = detailItem.getString("HalfDayOrNot");
+//		    	    	String amPm = detailItem.getString("AmOrPm");
+//		    	    	Log.e("detailed leave entries:", strStartDate + " " + strStopDate + " " + halfDay + " " + amPm + " k " + k);
+//						
+//					} catch (JSONException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//	    	    	
+//				} 				  		  
+				
+				Log.e("how many groups:",  jsArrDays.length()+ " " + t + " " + s + " index " + index + "\t" + jsArrDays.toString());
+				
+				//do some proc
+				
+				//addSelectedDay();  
 				
 				String EmployeeNumber = LoginActivity.EmployeeNum+"";
 
@@ -367,54 +666,32 @@ public class ApplyActivity extends Activity {
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.ENGLISH);       
 				Date curDate = new Date(System.currentTimeMillis()); //get current time        
 				String issuedDate = formatter.format(curDate);
-				//DateFormat curDate = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM);
-				//DateFormat curDate = DateFormat.getDateTimeInstance();
-				//String issuedDate = formatter.format(new Date());
-				Log.e("current time", issuedDate);
+				//String leaveType = Integer.toString(DateWidgetDayCell.selectedLeaveType);
+				String leaveType = "";
+				if (numDays >=1){
+					leaveType = Integer.toString(pickedDay.get(0).leaveType);
+				}
 				
+				Log.e("current time", issuedDate);
+				Log.e("leave type id", leaveType);
 				
 				RequestParams params = new RequestParams();
-	            
+	            	  
+				JSONObject jsObj = new JSONObject();			
 				
-				SelectedDayCells startSelectedDayCell, stopSelectedDayCell;
+				if( jsArrDays.length() >= 1){
 					
-		        
-				int stopIndex = DateWidgetDayCell.selectedDayCells.size() - 1;
-		        
-				JSONObject jsObjs = new JSONObject();
-				JSONObject jsObjt = new JSONObject();
+				try{				
 				
-				JSONArray jsArr = new JSONArray();
-				
-				if (stopIndex >= 0){
-					
-					startSelectedDayCell =  DateWidgetDayCell.selectedDayCells.get(0);
-			        stopSelectedDayCell = DateWidgetDayCell.selectedDayCells.get(stopIndex);
-			           
-			        String startDay = Integer.toString(startSelectedDayCell.year) + "-" + Integer.toString(startSelectedDayCell.month + 1) + "-" + Integer.toString(startSelectedDayCell.day);
-			        String stopDay =  Integer.toString(stopSelectedDayCell.year) + "-" + Integer.toString(stopSelectedDayCell.month + 1) + "-" + Integer.toString(stopSelectedDayCell.day);	
-				
-					
-					//DateWidgetDayCell.printSelectedDays();
-				
-					try {		
+					jsObj.put("EmployeeId", EmployeeNumber).put("LeavaTypeId",leaveType).put("IssuedDate", issuedDate).put("LeaveDetail", jsArrDays);;
 						
-						jsObjs.put("StartDay", startDay).put("StopDay", stopDay).put("HalfDayOrNot", "NULL").put("AmOrPm", "NULL");
-						jsArr.put(jsObjs);
-						jsObjt.put("EmployeeId", EmployeeNumber).put("LeavaTypeId","1").put("IssuedDate", issuedDate).put("LeaveDetail", jsArr);
-						
-					} catch (JSONException e) {
+				} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				
 				}
-				else{
-					Toast.makeText(ApplyActivity.this, "Leave Date Required", Toast.LENGTH_SHORT).show();
-				}
-				
-				
-				
+					
 				//JSONArray jsLeaveDetail = new JSONArray();
 				//String newRequestValue = "{\"EmployeeId\":EmployeeNumber,\"LeavaTypeId\":\"1\",\"IssuedDate\":issuedDate,\"LeaveDetail\":[{\"StartDay\":startDay,\"StopDay\":stopDay,\"HalfDayOrNot\":\"NULL\",\"AmOrPm\":\"NULL\"}]}";
 				
@@ -422,12 +699,13 @@ public class ApplyActivity extends Activity {
 				
 				//newRequest = JSON {EmployeeId, CaseId, LeavaTypeId, IssuedDate,  LeaveDetail: [{StartDay, StopDay, HalfDayOrNot, AmOrPm}]}
 				//params.put("newRequest", "{\"EmployeeId\":\"10000001\",\"LeavaTypeId\":\"1\",\"IssuedDate\":\"2014-10-16 16:55:00\",\"LeaveDetail\":[{\"StartDay\":\"2014-10-20\",\"StopDay\":\"2014-10-22\",\"HalfDayOrNot\":\"NULL\",\"AmOrPm\":\"NULL\"}]}");
-	            params.put("newRequest", jsObjt.toString());
+	            params.put("newRequest", jsObj.toString());
 				params.put("type", "new");
 	            EleaveAppClient.setTimeout(10000);
-	    		Log.e("debug","Submit Request!");
+	    		//Log.e("debug","Submit Request!");
 	    		
-	    		EleaveAppClient.post("Leave/submitleave", params, new AsyncHttpResponseHandler(){
+	    		if (jsArrDays.length() >= 1) {
+	    			EleaveAppClient.post("Leave/submitleave", params, new AsyncHttpResponseHandler(){
 	    			
 	    			@Override
 	            	public void onSuccess(String response) {
@@ -472,16 +750,22 @@ public class ApplyActivity extends Activity {
 	                };	    			
 	    			
 	    		});
+	    	
+			   }
 	    		
 				}
 			});
-			
+				   		   
 			
 		   buttonCancel.setOnClickListener(new OnClickListener(){
 				public void onClick(View v){
+					
+					
+					
 					//do some process
 					Log.i("Anne", "Cancel button is pressed.");
 					DateWidgetDayCell.clearSelectedDays();
+					isCancelPressed = true;
 					updateCalendar();
 				}
 				});
@@ -526,8 +810,19 @@ public class ApplyActivity extends Activity {
 			common_Reminder = this.getResources().getColor(R.color.commonReminder);
 			Calendar_WeekFontColor = this.getResources().getColor(
 					R.color.Calendar_WeekFontColor);
-		}
+			
+			
+			
+			
+			
+
 		
+	
+		}
+
+	
+		
+
 		public class myOnItemSelectedListener implements OnItemSelectedListener {
 
 	        /*
@@ -566,9 +861,51 @@ public class ApplyActivity extends Activity {
 	        public void onItemSelected(AdapterView<?> parent, View v, int pos, long row) {
 
 	            ApplyActivity.this.mPos = pos;
-	            ApplyActivity.this.mSelection = parent.getItemAtPosition(pos).toString();
-	            Log.e("Leave Type Info", ApplyActivity.this.mSelection);
-	          
+	            ApplyActivity.mSelection = parent.getItemAtPosition(pos).toString();
+	            //Log.e("Leave Type Info", ApplyActivity.mSelection);	            
+	           // DateWidgetDayCell dwdc = new DateWidgetDayCell(getBaseContext(), Cell_Width, Cell_Width);
+	            
+	            String saveLeaveType = ApplyActivity.mSelection;
+		     	
+		     	if (saveLeaveType.equals("Annual Leave"))
+		     		selectedLeaveType = 1;
+		     	else if(saveLeaveType.equals("Sick Leave"))
+		     		selectedLeaveType = 4;
+		     	else if(saveLeaveType.equals("Marriage Leave"))
+		     		selectedLeaveType = 5;
+		     	else if(saveLeaveType.equals("Maternity Leave"))
+		     		selectedLeaveType = 6;
+		     	else if(saveLeaveType.equals("Paternity Leave"))
+		     		selectedLeaveType = 7;
+		     	else if(saveLeaveType.equals("Compassionate Leave"))
+		     		selectedLeaveType = 8;
+		     	else if(saveLeaveType.equals("Unpaid Leave of Absence"))
+		     		selectedLeaveType = 9;
+		      	else if(saveLeaveType.equals("Morning")){
+//		      		DateWidgetDayCell.bMorning = true;
+//		      		DateWidgetDayCell.bAfternoon = false;
+		      		selectedHalfDay = true;
+		      		selectedDayAm = true; 
+		      	  Log.e("selectedDayAm", selectedDayAm+"");
+		      		//selectedDayPm = false;
+		     	}     		
+		     	else if(saveLeaveType.equals("Afternoon")){
+		     		selectedHalfDay = true;
+		     		selectedDayAm = false;
+		     	    Log.e("selectedDayPm", selectedDayAm+"");	
+		     		//selectedDayPm = true;
+//		     		DateWidgetDayCell.bMorning = false;
+//		      		DateWidgetDayCell.bAfternoon = true;
+		     	}
+		     	else if(saveLeaveType.equals("Whole Day")){
+		     		selectedHalfDay = false;
+		     		selectedDayAm = false;
+		     		Log.e("selected Whole Day", selectedHalfDay+"");	
+		     		//selectedDayPm = false;
+		     	}
+	            
+		     	//dwdc.addSelectedDay(calSelected);
+	            
 	        }
 
 	        /**
@@ -706,6 +1043,18 @@ public class ApplyActivity extends Activity {
 			int iDay = 0;
 			int iStartDay = iFirstDayOfWeek;
 			
+			
+			/*
+			 * author: ezzgxxo
+			 * 星期日为一周的第一天	    SUN	 MON TUE  WED	THU FRI SAT
+			 * DAY_OF_WEEK返回值	 1	  2	  3	   4	 5	  6	 7
+			 * 星期一为一周的第一天	    MON  TUE  WED  THU  FRI SAT SUN
+			 * DAY_OF_WEEK返回值	 1	 2	 3	 4	 5	 6	 7
+			 * 
+			 * 
+			 */
+				
+			
 			if (iStartDay == Calendar.MONDAY) {
 				iDay = calStartDate.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY;
 				if (iDay < 0)
@@ -719,6 +1068,8 @@ public class ApplyActivity extends Activity {
 			}
 			
 			calStartDate.add(Calendar.DAY_OF_WEEK, -iDay);
+			
+			//Log.e("1st calStartDate is: ", calStartDate.toString());
 		}
 
 		// 更新日历
@@ -730,7 +1081,9 @@ public class ApplyActivity extends Activity {
 			final int iSelectedMonth = calSelected.get(Calendar.MONTH);
 			final int iSelectedDay = calSelected.get(Calendar.DAY_OF_MONTH);
 			calCalendar.setTimeInMillis(calStartDate.getTimeInMillis());
-		
+			
+			//Log.e("2nd calCandelar", calCalendar.toString());
+			//Log.e("days:", (days.size()+"") );
 			
 			for (int i = 0; i < days.size(); i++) {
 				final int iYear = calCalendar.get(Calendar.YEAR);
@@ -738,6 +1091,11 @@ public class ApplyActivity extends Activity {
 				final int iDay = calCalendar.get(Calendar.DAY_OF_MONTH);
 				final int iDayOfWeek = calCalendar.get(Calendar.DAY_OF_WEEK);
 				DateWidgetDayCell dayCell = days.get(i);
+				
+				
+				//Log.e("imonth", iMonth +"");
+				//Log.e("calToday month:", calToday.get(Calendar.MONTH) + "");
+				//Log.e("dayCell:", iDay + "" + "\t");
 
 				// 判断是否当天
 				boolean bToday = false;
@@ -748,16 +1106,26 @@ public class ApplyActivity extends Activity {
 							bToday = true;
 						}
 					}
-				}
-
+				}				
+				
 				// check holiday
 				boolean bHoliday = false;
 				if ((iDayOfWeek == Calendar.SATURDAY)
 						|| (iDayOfWeek == Calendar.SUNDAY))
 					bHoliday = true;
-				if ((iMonth == Calendar.JANUARY) && (iDay == 1))
-					bHoliday = true;
+			
+				
+				//if ((iMonth == Calendar.JANUARY) && (iDay == 1))
+				//	  bHoliday = true;
 
+				
+//				if (iMonth == calToday.get(Calendar.MONTH))
+//					isCurrentMonthSatSun = true;
+//					
+//				else
+//					isCurrentMonthSatSun = false;
+//							
+				
 				// 是否被选中
 				bSelected = false;
 				
@@ -781,16 +1149,37 @@ public class ApplyActivity extends Activity {
 							.contains(UserName);
 				}
 
-				if (bSelected)
+				boolean bAm = false, bPm = false;
+				
+				if (bSelected){
+					
 					daySelected = dayCell;
-
+					
+					if (dayCell.bAfternoon == true)
+						{
+						bPm = true;
+						daySelected.bAfternoon = true;
+						}
+						
+					
+					if (dayCell.bMorning == true){
+						bAm = true;
+						daySelected.bMorning = true;
+					}
+						
+				}
+					
 				dayCell.setData(iYear, iMonth, iDay, bToday, bHoliday,
-						iMonthViewCurrentMonth, hasRecord);
-
+						iMonthViewCurrentMonth, hasRecord, bAm, bPm);
+				
 				calCalendar.add(Calendar.DAY_OF_MONTH, 1);
+				
+				//Log.e("calCalendar: ", calCalendar.toString());
+					
 			}
-			
-			layContent.invalidate();
+
+			//doesn't take effective here
+			//layContent.invalidate();
 			
 			return daySelected;
 		}
@@ -871,21 +1260,26 @@ public class ApplyActivity extends Activity {
 				startDate = (Calendar) calStartDate.clone();
 				endDate = GetEndDate(startDate);
 
-				// 新建线程
-				new Thread() {
-					@Override
-					public void run() {
-
-						int day = GetNumFromDate(calToday, startDate);
-						
-						if (calendar_Hashtable != null
-								&& calendar_Hashtable.containsKey(day)) {
-							dayvalue = calendar_Hashtable.get(day);
-						}
-					}
-				}.start();
+				Log.e("startDate + endDate",startDate.toString() + "\n" + endDate.toString());
+				
+//				// 新建线程
+//				new Thread() {
+//					@Override
+//					public void run() {
+//
+//						int day = GetNumFromDate(calToday, startDate);
+//						
+//						if (calendar_Hashtable != null
+//								&& calendar_Hashtable.containsKey(day)) {
+//							dayvalue = calendar_Hashtable.get(day);
+//						}
+//					}
+//				}.start();
 
 				//DateWidgetDayCell.printSelectedDays();
+//				isPrevNextMonth = true;
+//				Log.e("Prev Month:", isPrevNextMonth+"");
+				//DateWidgetDayCell.setAmorPm();
 				updateCalendar();
 			}
 
@@ -913,20 +1307,23 @@ public class ApplyActivity extends Activity {
 				startDate = (Calendar) calStartDate.clone();
 				endDate = GetEndDate(startDate);
 
-				// 新建线程
-				new Thread() {
-					@Override
-					public void run() {
-						int day = 5;
-						
-						if (calendar_Hashtable != null
-								&& calendar_Hashtable.containsKey(day)) {
-							dayvalue = calendar_Hashtable.get(day);
-						}
-					}
-				}.start();
+//				// 新建线程
+//				new Thread() {
+//					@Override
+//					public void run() {
+//						int day = 5;
+//						
+//						if (calendar_Hashtable != null
+//								&& calendar_Hashtable.containsKey(day)) {
+//							dayvalue = calendar_Hashtable.get(day);
+//						}
+//					}
+//				}.start();
 
 				//DateWidgetDayCell.printSelectedDays();
+//				isPrevNextMonth = true;
+//				Log.e("Next Month:", isPrevNextMonth+"");
+				//DateWidgetDayCell.setAmorPm();
 				updateCalendar();
 			}
 		}
@@ -936,7 +1333,7 @@ public class ApplyActivity extends Activity {
 			public void OnClick(DateWidgetDayCell item) {
 				calSelected.setTimeInMillis(item.getDate().getTimeInMillis());
 				int day = GetNumFromDate(calSelected, startDate);
-				
+				Log.e("day", day+"");
 //				if (calendar_Hashtable != null
 //						&& calendar_Hashtable.containsKey(day)) {
 //					arrange_text.setText(Calendar_Source.get(calendar_Hashtable
@@ -946,8 +1343,9 @@ public class ApplyActivity extends Activity {
 //				}
 				
 				//item.setSelected(true);
-				DateWidgetDayCell.addSelectedDay(calSelected);
+				item.addSelectedDay(calSelected);
 				//DateWidgetDayCell.printSelectedDays();
+				item.setAmorPm();
 				updateCalendar();
 			}
 		};
@@ -990,6 +1388,9 @@ public class ApplyActivity extends Activity {
 			endDate.add(Calendar.DAY_OF_MONTH, 41);
 			return endDate;
 		}
-
-
+				
+		
 }
+
+  
+
