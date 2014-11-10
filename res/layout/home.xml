@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<ScrollView    
+    xmlns:android="http://schemas.android.com/apk/res/android"    
+    android:layout_width="fill_parent"    
+    android:layout_height="fill_parent"    
+    android:scrollbars="vertical"    
+    android:fadingEdge="vertical">    
 
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
         
         <LinearLayout
+            android:id="@+id/trl_show"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/light_blue"
             android:orientation="vertical"
             android:padding="15dp" >
+            
+            <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Total Remained Leave"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-            
-            
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="8sp" />
+	            <TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="Total Remained Leave"
+	                android:textColor="@color/white"
+	                android:textSize="20sp" />
+
+	            <Button
+	                android:id="@+id/button1"
+	                style="?android:attr/buttonStyleSmall"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_marginRight="35dp"	                
+	                android:text="F5" 
+	                android:visibility="invisible"/>
+	            
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_total_remained"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="60sp" />
+ 
         </LinearLayout>
         
          <LinearLayout
@@ -73,13 +85,13 @@
                 android:id="@+id/EnglisthName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.63"
-                android:text="Annual Leave Information" />
+                android:text="Annual Leave Information     " />
 
             <TextView
                 android:id="@+id/tv_eid"
-                android:layout_width="142dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" 
+                android:textColor="@color/black"/>
         </LinearLayout>
                                 
         <LinearLayout
@@ -100,63 +112,136 @@
                     android:text="Annual leave balance before 1998"
                     android:textSize="16sp" />
                 
-                 <TableLayout
-            android:id="@+id/tablelayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="0,1,2,3"
-            android:shrinkColumns="0,1,2,3" >
-           
-            
-            <TableRow
-                android:id="@+id/tableRow1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-
-
-                <TextView
-                    android:text="0"
-                    android:textColor="@color/orange"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="35sp"/>
+	            <TableLayout
+		            android:id="@+id/tablelayout1"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:stretchColumns="0,1,2,3"
+		            android:shrinkColumns="0,1,2,3" >
+		           
+		            
+		            <TableRow
+		                android:id="@+id/tableRow1"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content" >
+	
+	
+		                <TextView
+		                    android:text="0"
+		                    android:textColor="@color/orange"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="wrap_content"
+		                    android:textSize="35sp"/>
+		                
+		                <TextView
+		                    android:text="="
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:padding="20dp"
+		                    android:textSize="20sp"/>
+		                   
+		
+		                <TextView
+		                    android:text="0"
+		                    android:textColor="@color/light_blue"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:textSize="20sp"/>
+		                    
+		                <TextView
+		                    android:text="+"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:padding="10dp"
+		                    android:textSize="20sp"/>
+		
+		                <TextView
+		                    android:text="0"
+		                    android:textColor="@color/black"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:textSize="20sp"/>
                 
-                <TextView
-                    android:text="="
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"/>
-                   
-
-                <TextView
-                    android:text="0"
-                    android:textColor="@color/light_blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"/>
                     
-                <TextView
-                    android:text="+"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"/>
-
-                <TextView
-                    android:text="0"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"/>
-                
-                    
-            </TableRow>
-
-            
-        </TableLayout>
+            		</TableRow>
+        		</TableLayout>
             </LinearLayout>
 
             <LinearLayout
+		                android:layout_width="0dp"
+		                android:layout_height="match_parent"
+		                android:layout_weight="1"
+		                android:orientation="vertical"
+		                android:padding="10dp" >
+		
+	                <TextView
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:text="Additional leave granted in 2014"
+	                    android:textSize="16sp" />
+	
+		            <TableLayout
+			            android:id="@+id/tablelayout1"
+			            android:layout_width="match_parent"
+			            android:layout_height="wrap_content"
+			            android:stretchColumns="0,1,2,3"
+			            android:shrinkColumns="0,1,2,3" >
+			           
+			            
+			            <TableRow
+			                android:id="@+id/tableRow1"
+			                android:layout_width="wrap_content"
+			                android:layout_height="wrap_content" >
+			
+			
+			                <TextView
+			                    android:id="@+id/tv_entitled_alty"
+			                    android:textColor="@color/orange"
+			                    android:layout_width="match_parent"
+			                    android:layout_height="wrap_content"
+			                    android:textSize="35sp"/>
+			                
+			                <TextView
+			                    android:text="="
+			                    android:layout_width="wrap_content"
+			                    android:layout_height="wrap_content"
+			                    android:padding="20dp"
+			                    android:textSize="20sp"/>
+			                    
+			                <TextView
+			                    android:id="@+id/tv_taken_alty"
+			                    android:textColor="@color/light_blue"
+			                    android:layout_width="wrap_content"
+			                    android:layout_height="wrap_content"
+			                    android:textSize="20sp"/>                   
+					                
+			                <TextView
+			                    android:text="+"
+			                    android:layout_width="wrap_content"
+			                    android:layout_height="wrap_content"
+			                    android:padding="10dp"
+			                    android:textSize="20sp"/>
+			                
+			                <TextView
+			                    android:id="@+id/tv_remained_alty"
+			                    android:textColor="@color/black"
+			                    android:layout_width="wrap_content"
+			                    android:layout_height="wrap_content"
+			                    android:textSize="20sp"/>
+            		</TableRow>
+        		</TableLayout>
+		            
+            </LinearLayout>
+            
+            
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_gray" >
+		
+		       <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -169,7 +254,8 @@
                     android:text="Leave brought forward from 2013"
                     android:textSize="16sp" />
 
-                <TableLayout
+
+	            <TableLayout
 		            android:id="@+id/tablelayout1"
 		            android:layout_width="match_parent"
 		            android:layout_height="wrap_content"
@@ -181,187 +267,115 @@
 		                android:id="@+id/tableRow1"
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content" >
-		
-		
-		
-		                <TextView
-		                    android:id="@+id/tv_entitled_lily"
-		                    android:textColor="@color/orange"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="35sp"/>
-		                  		                
-		                <TextView
-		                    android:text="="
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="20sp"/> 
-		
-		                <TextView
-		                    android:id="@+id/tv_taken_lily"
-		                    android:textColor="@color/light_blue"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="20sp"/>
-		                
-		                <TextView
-		                    android:text="+"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="20sp"/>		                    
-		
-		                <TextView
-		                    android:id="@+id/tv_remained_lily"
-		                    android:textColor="@color/white"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="20sp"/>
-		                    
-		            </TableRow>
-             	</TableLayout>
-             	
+			                
+                        <TextView
+                            android:id="@+id/tv_entitled_lily"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/orange"
+                            android:textSize="35sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="="
+                            android:padding="20dp"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/tv_taken_lily"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/light_blue"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+"
+                            android:padding="10dp"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/tv_remained_lily"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+            		</TableRow>
+        		</TableLayout>
             </LinearLayout>
-            
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/light_gray" >
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="10dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Statutory leave granted in 2014"
-                    android:textSize="16sp" />
-
-                <TableLayout
-		            android:id="@+id/tablelayout1"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:stretchColumns="0,1,2,3"
-		            android:shrinkColumns="0,1,2,3" >
-		           
-		            
-		            <TableRow
-		                android:id="@+id/tableRow2"
-		                android:layout_width="wrap_content"
-		                android:layout_height="wrap_content" >
-		
-		                <TextView
-		                    android:id="@+id/tv_entitled_slty"
-		                    android:textColor="@color/orange"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="35sp"/>
-				                
-		                <TextView
-		                    android:text="="
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="20sp"/>
-		                
-		                <TextView
-		                    android:id="@+id/tv_taken_slty"
-		                    android:textColor="@color/light_blue"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="20sp"/>
-				                
-		                <TextView
-		                    android:text="+"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="20sp"/>
-		                
-		                <TextView
-		                    android:id="@+id/tv_remained_slty"
-		                    android:textColor="@color/white"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="20sp"/>
-		                     
-		            </TableRow>
-            
-		        </TableLayout>
-		     </LinearLayout>
-		
 		       <LinearLayout
-		                android:layout_width="0dp"
-		                android:layout_height="match_parent"
-		                android:layout_weight="1"
-		                android:orientation="vertical"
-		                android:padding="10dp" >
-		
-		                <TextView
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:text="Additional leave granted in 2014"
-		                    android:textSize="16sp" />
-		
-		                 				<TableLayout
-		            android:id="@+id/tablelayout1"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:stretchColumns="0,1,2,3"
-		            android:shrinkColumns="0,1,2,3" >
-		           
-		            <TableRow
-		                android:id="@+id/tableRow1"
-		                android:layout_width="wrap_content"
-		                android:layout_height="wrap_content" >
-		
-		
-		                <TextView
-		                    android:id="@+id/tv_entitled_alty"
-		                    android:textColor="@color/orange"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="35sp"/>
-		                
-		                <TextView
-		                    android:text="="
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="20sp"/>
-		                    
-		                <TextView
-		                    android:id="@+id/tv_taken_alty"
-		                    android:textColor="@color/light_blue"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="20sp"/>                   
-				                
-		                <TextView
-		                    android:text="+"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="20sp"/>
-		                
-		                <TextView
-		                    android:id="@+id/tv_remained_alty"
-		                    android:textColor="@color/white"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:textSize="20sp"/>
-		                     
-		            </TableRow>
-		        </TableLayout>
-            </LinearLayout>
+		           android:layout_width="0dp"
+		           android:layout_height="match_parent"
+		           android:layout_weight="1"
+		           android:orientation="vertical"
+		           android:padding="10dp" >
+
+		           <TextView
+		               android:layout_width="wrap_content"
+		               android:layout_height="wrap_content"
+		               android:text="Statutory leave granted in 2014"
+		               android:textSize="16sp" />
+
+		            <TableLayout
+			            android:id="@+id/tablelayout1"
+			            android:layout_width="match_parent"
+			            android:layout_height="wrap_content"
+			            android:stretchColumns="0,1,2,3"
+			            android:shrinkColumns="0,1,2,3" >
+			           
+			            
+			            <TableRow
+			                android:id="@+id/tableRow1"
+			                android:layout_width="wrap_content"
+			                android:layout_height="wrap_content" >
+
+		                   <TextView
+		                       android:id="@+id/tv_entitled_slty"
+		                       android:layout_width="match_parent"
+		                       android:layout_height="wrap_content"
+		                       android:textColor="@color/orange"
+		                       android:textSize="35sp" />
+
+		                   <TextView
+		                       android:layout_width="wrap_content"
+		                       android:layout_height="wrap_content"
+		                       android:text="="
+		                       android:padding="20dp"
+		                       android:textSize="20sp" />
+
+		                   <TextView
+		                       android:id="@+id/tv_taken_slty"
+		                       android:layout_width="wrap_content"
+		                       android:layout_height="wrap_content"
+		                       android:textColor="@color/light_blue"
+		                       android:textSize="20sp" />
+
+		                   <TextView
+		                       android:layout_width="wrap_content"
+		                       android:layout_height="wrap_content"
+		                       android:text="+"
+		                       android:padding="10dp"
+		                       android:textSize="20sp" />
+
+		                   <TextView
+		                       android:id="@+id/tv_remained_slty"
+		                       android:layout_width="wrap_content"
+		                       android:layout_height="wrap_content"
+		                       android:textColor="@color/black"
+		                       android:textSize="20sp" />
+          				</TableRow>
+        			</TableLayout>
+		       </LinearLayout>
+
         </LinearLayout>
         
         <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
-            
+        android:orientation="vertical" >          
             
             
             
@@ -402,7 +416,7 @@
 	
 	        <TextView
 	            android:id="@+id/tv_job_starting_year_value"
-	            android:layout_width="138dp"
+	            android:layout_width="142dp"
 	            android:layout_height="wrap_content" />
        
         </LinearLayout>
@@ -414,6 +428,4 @@
         
     </LinearLayout>
 
-  
-
-</RelativeLayout>
+</ScrollView>

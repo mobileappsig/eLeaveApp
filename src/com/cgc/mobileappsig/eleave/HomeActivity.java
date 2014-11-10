@@ -6,6 +6,7 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.commons.logging.LogFactory;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,8 +16,14 @@ import org.apache.commons.logging.LogFactory;
 
 import android.widget.Toast;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity; 
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -32,6 +39,8 @@ public class HomeActivity extends Activity {
 	
 	public static int EmployeeNum = 0;
 	
+	
+	
 	@Override  
     protected void onCreate(Bundle savedInstanceState) {  
         // TODO Auto-generated method stub  
@@ -40,17 +49,44 @@ public class HomeActivity extends Activity {
         //TextView tv = new TextView(this); 
         //tv.setText("This is Home Activity!"); 
         //tv.setGravity(Gravity.CENTER); 
-        setContentView(R.layout.home); 
+        setContentView(R.layout.home);
         
-        RequestParams params = new RequestParams();
+        ShowHomePage(LoginActivity.EID);
         
-        params.put("EID", "ELEAERI");
-       
-        //final Log logger = LogFactory.getLog("HomeActivity.class");
-        
-        //try{
-        
-        EleaveAppClient.post("Users/leaveinfo", params, new AsyncHttpResponseHandler(){
+        //get trl_show
+    	LinearLayout linearLayout = (LinearLayout) findViewById(R.id.trl_show);
+    	//set listener to trl_show
+    	linearLayout.setOnClickListener(new OnClickListener()
+    	{
+
+			@Override
+			public void onClick(View source) {
+				ShowHomePage(LoginActivity.EID);
+			}
+				
+			});
+    	
+        //get trl_show
+    	 Button bn = (Button) findViewById(R.id.button1);
+    	//set listener to trl_show
+    	 bn.setOnClickListener(new OnClickListener()
+    	{
+
+			@Override
+			public void onClick(View source) {
+				ShowHomePage(LoginActivity.EID);
+			}
+				
+			});
+    		
+    	}
+    	
+	public void ShowHomePage(String EID){
+		
+		RequestParams params = new RequestParams();
+		params.put("EID", "ELEAERI");
+		
+		EleaveAppClient.post("Users/leaveinfo", params, new AsyncHttpResponseHandler(){
         	
         	@Override
         	public void onSuccess(String response) {
@@ -67,8 +103,8 @@ public class HomeActivity extends Activity {
                 	//JSONObject jsonObject = new JSONObject(jsonStr);
                 			
                 	int state = 200;
-                    //if(jsonObject.has("state")) state = jsonObject.getInt("state");
-                    //Log.e("debug", state+"");
+                    if(jsonObject.has("state")) state = jsonObject.getInt("state");
+                    Log.e("debug", state+"");
                    
 
                     switch(state){
@@ -128,6 +164,10 @@ public class HomeActivity extends Activity {
                     	TextView tv_last_take = (TextView)findViewById(R.id.tv_taken_lily);
                     	tv_last_take.setText(LastTake+"");    	
                     	
+                    	int TotalTake = ThisTakeStat+ThisTakeAddi+LastTake;
+                    	TextView tv_total_take = (TextView)findViewById(R.id.tv_total_taken);
+                    	tv_total_take.setText(TotalTake+"");    	
+                    	
                     	
                     	int StatRemained = ThisStat-ThisTakeStat;                    	
                     	TextView tv_stat_remained = (TextView)findViewById(R.id.tv_remained_slty);
@@ -140,7 +180,11 @@ public class HomeActivity extends Activity {
                     	int LastRemained = LastLeft-LastTake;                    
                     	TextView tv_last_remained = (TextView)findViewById(R.id.tv_remained_lily);
                     	tv_last_remained.setText(LastRemained+"");    	
-                    	                    	                                           
+                    	                    	                           
+                    	int TotalRemained = StatRemained+AddiRemained+LastRemained;                    
+                    	TextView tv_total_remained = (TextView)findViewById(R.id.tv_total_remained);
+                    	tv_total_remained.setText(TotalRemained+"");
+                    	
                     	
 //                        EmploymentDate: String, 
 //                        JobStartingYear: String, 
@@ -169,12 +213,17 @@ public class HomeActivity extends Activity {
         	public void onFinish() { 
         		
             };
+            
+            private void refresh() {  
+
+            	onCreate(null);  
+            };
 
         
         });
-        
-        //ExitApplication.getInstance().addActivity(this);
 	}
+    	       
+
 
 }
 

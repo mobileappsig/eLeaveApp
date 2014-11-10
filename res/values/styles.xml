@@ -31,5 +31,5 @@
        <item name="android:drawablePadding">@dimen/bottom_tab_padding_drawable</item>  
        <item name="android:layout_weight">1.0</item>  
    </style>
-
+    
 </resources>

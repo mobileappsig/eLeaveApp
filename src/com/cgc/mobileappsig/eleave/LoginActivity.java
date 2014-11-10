@@ -27,6 +27,7 @@ public class LoginActivity extends Activity {
 	private Button btnlogin=null;
 	public static int EmployeeNum = 0;
 	public static String EmployeeRole = "";
+	public static String EID = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,10 @@ public class LoginActivity extends Activity {
             RequestParams params = new RequestParams();
             params.put("EID", suid);
             params.put("password", spass);
+            
+            EID = suid;
+            Log.e("EID", EID);
+            
             //Users/login
             EleaveAppClient.setTimeout(10000);
     		Log.e("debug","OnClickListener Login!");

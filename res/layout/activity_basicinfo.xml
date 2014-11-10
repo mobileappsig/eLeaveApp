@@ -46,9 +46,9 @@
                     android:drawableTop="@drawable/icon_3_n" 
                     style="@style/main_tab_bottom" /> 
                 <RadioButton  
-                    android:id="@+id/radio_help" 
+                    android:id="@+id/radio_todo" 
                     android:layout_marginTop="2.0dip" 
-                    android:text="@string/main_help" 
+                    android:text="@string/main_todo" 
                     android:drawableTop="@drawable/icon_4_n" 
                     style="@style/main_tab_bottom" /> 
                 <RadioButton  

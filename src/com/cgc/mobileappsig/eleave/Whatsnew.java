@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -29,6 +30,7 @@ public class Whatsnew extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.whatsnew_viewpager);
         mViewPager = (ViewPager)findViewById(R.id.whatsnew_viewpager);        
         mViewPager.setOnPageChangeListener(new MyOnPageChangeListener());
@@ -41,7 +43,7 @@ public class Whatsnew extends Activity {
         mPage4 = (ImageView)findViewById(R.id.page4);
         mPage5 = (ImageView)findViewById(R.id.page5);
         
-      //½«Òª·ÖÒ³ÏÔÊ¾µÄView×°ÈëÊý×éÖÐ
+      //ï¿½ï¿½Òªï¿½ï¿½Ò³ï¿½ï¿½Ê¾ï¿½ï¿½View×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         LayoutInflater mLi = LayoutInflater.from(this);
         View view1 = mLi.inflate(R.layout.whats1, null);
         View view2 = mLi.inflate(R.layout.whats2, null);
@@ -50,7 +52,7 @@ public class Whatsnew extends Activity {
         View view5 = mLi.inflate(R.layout.whats5, null);
         View view6 = mLi.inflate(R.layout.whats6, null);
         
-      //Ã¿¸öÒ³ÃæµÄviewÊý¾Ý
+      //Ã¿ï¿½ï¿½Ò³ï¿½ï¿½ï¿½viewï¿½ï¿½ï¿½
         final ArrayList<View> views = new ArrayList<View>();
         views.add(view1);
         views.add(view2);
@@ -59,7 +61,7 @@ public class Whatsnew extends Activity {
         views.add(view5);
         views.add(view6);
         
-        //Ìî³äViewPagerµÄÊý¾ÝÊÊÅäÆ÷
+        //ï¿½ï¿½ï¿½ViewPagerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         PagerAdapter mPagerAdapter = new PagerAdapter() {
 			
 			@Override
@@ -124,7 +126,7 @@ public class Whatsnew extends Activity {
 				break;
 			}
 			currIndex = arg0;
-			//animation.setFillAfter(true);// True:Í¼Æ¬Í£ÔÚ¶¯»­½áÊøÎ»ÖÃ
+			//animation.setFillAfter(true);// True:Í¼Æ¬Í£ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 			//animation.setDuration(300);
 			//mPageImg.startAnimation(animation);
 		}

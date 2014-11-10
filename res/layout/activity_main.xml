@@ -63,6 +63,7 @@
             android:layout_marginLeft="12dip"
             android:layout_marginRight="10dip" 
             android:inputType="text"
+            android:text="eleaeri"
             android:background="@drawable/login_editbox">
 
             <requestFocus />
@@ -91,6 +92,7 @@
             android:password="true"
             android:scrollHorizontally="true" 
             android:inputType="text"
+            android:text="123"
             android:background="@drawable/login_editbox"/>
         </RelativeLayout>
     <RelativeLayout 

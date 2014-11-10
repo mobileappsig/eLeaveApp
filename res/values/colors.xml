@@ -8,9 +8,9 @@
     <color name="login_font">#3D3E40</color>
     
     <!-- 主应用程序 -->
-    <color name="light_black">#1A1A1A</color>
+   	<color name="light_black">#1A1A1A</color>
     <color name="orange">#ff6633</color>
-    <color name="light_gray">#2382E0</color>
+    <color name="light_gray">#E0E0E0</color>
     <color name="middle_gray">#E0EFEF</color>
     <color name="light_blue">#225599</color> 
     

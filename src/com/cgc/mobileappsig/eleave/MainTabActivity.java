@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TabHost;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Button;
+import android.widget.TabHost.TabContentFactory;
 import android.widget.TabWidget;
 import android.view.View.OnClickListener;
 import android.view.View;
@@ -31,9 +32,9 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
 	private Intent iHome;
 	private Intent iApply;
 	private Intent iReport;
-	private Intent iHelp;
+	private Intent iTodo;
 	private Button iexit;
-	private RadioButton btn_help;
+	private RadioButton btn_todo;
 	private BadgeView badge;
 	private Integer todo_num;
 	
@@ -41,7 +42,7 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
     protected void onCreate(Bundle savedInstanceState) {  
         // TODO Auto-generated method stub  
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_basicinfo); 
         
         mainTab=(RadioGroup)findViewById(R.id.main_tab);
@@ -58,34 +59,34 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
 	        	.setIndicator(getResources().getString(R.string.main_apply), getResources().getDrawable(R.drawable.icon_2_n))
 	        	.setContent(iApply));
 		
-		iReport = new Intent(this, HomeActivity.class);
-			tabhost.addTab(tabhost.newTabSpec("iReport")
+		iReport = new Intent(this, WorkItemActivity.class);
+		tabhost.addTab(tabhost.newTabSpec("iReport")
 		        	.setIndicator(getResources().getString(R.string.main_report), getResources().getDrawable(R.drawable.icon_3_n))
 		        	.setContent(iReport));
 		
-		iHelp = new Intent(this, HomeActivity.class);
-			tabhost.addTab(tabhost.newTabSpec("iHelp")
-		        	.setIndicator(getResources().getString(R.string.main_help), getResources().getDrawable(R.drawable.icon_3_n))
-		        	.setContent(iHelp));
+		iTodo = new Intent(this, HomeActivity.class);
+		tabhost.addTab(tabhost.newTabSpec("iTodo")
+		        	.setIndicator(getResources().getString(R.string.main_todo), getResources().getDrawable(R.drawable.icon_4_n))
+		        	.setContent(iTodo));
 		
 		iexit = (Button)findViewById(R.id.radio_exit);
 		iexit.setOnClickListener(exitClick);
 		ExitApplication.getInstance().addActivity(this);
 		
-		btn_help = (RadioButton)findViewById(R.id.radio_help);
-		btn_help.setOnClickListener(new OnClickListener(){
+		btn_todo = (RadioButton)findViewById(R.id.radio_todo);
+		btn_todo.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mainTab.check(R.id.radio_help);
+				mainTab.check(R.id.radio_todo);
 				badge.hide();
 			}
 			
 		}
 		);
 		
-		badge = new BadgeView(this, btn_help);
+		badge = new BadgeView(this, btn_todo);
 		
 		// TO-DO: get the number of To-do items
 		todo_num = 3;
@@ -144,8 +145,8 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
 		case R.id.radio_report:
 			this.tabhost.setCurrentTabByTag("iReport");
 			break;
-		case R.id.radio_help:
-			this.tabhost.setCurrentTabByTag("iHelp");
+		case R.id.radio_todo:
+			this.tabhost.setCurrentTabByTag("itodo");
 			break;
 		}
 	}

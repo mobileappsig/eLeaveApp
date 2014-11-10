@@ -21,11 +21,12 @@ public class EleaveAppClient {
     
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
     	client.get(getAbsoluteUrl(url), params, responseHandler);
+    	Log.e("debug","get url:"+getAbsoluteUrl(url)+params);
     }
     
     public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
     	client.post(getAbsoluteUrl(url), params, responseHandler);
-    	Log.e("debug","url:"+getAbsoluteUrl(url)+params);
+    	Log.e("debug","post url:"+getAbsoluteUrl(url)+params);
     	//client.post(url, params, responseHandler);
     }
     

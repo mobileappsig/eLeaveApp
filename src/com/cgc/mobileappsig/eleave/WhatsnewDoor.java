@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -24,6 +25,7 @@ public class WhatsnewDoor extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.whats_door);
         
         mLeft = (ImageView)findViewById(R.id.imageLeft);

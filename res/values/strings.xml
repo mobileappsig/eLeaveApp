@@ -11,7 +11,7 @@
     <string name="main_apply">Apply</string> 
     <string name="main_exit">Exit1</string> 
     <string name="main_report">Report</string> 
-    <string name="main_help">Help</string>
+    <string name="main_todo">Todo</string>
     <string name="leave_info">Leave Information</string>
     <string name="home_welcome">Welcome</string>
     <string name="main_style">" \n \nEleave，是一个请假方式\n \n "</string>
@@ -33,5 +33,6 @@
         <item>Afternoon</item>
     </string-array>
     <string name="leaveTime_prompt">Select a leave time </string>
+    <string name="main_">TODO</string>
 
 </resources>

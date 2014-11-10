@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="4dip"
+ 	android:paddingBottom="6dip"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+    tools:context=".WorkItemActivity" >
+
+ 	<TextView 
+ 	android:id="@+id/txtCaseID"
+ 	android:layout_width="50dip"
+ 	android:layout_height="wrap_content"/>
+ 	
+    <TextView 
+ 	android:id="@+id/txtLeaveType"
+ 	android:layout_width="50dip"
+ 	android:layout_height="wrap_content"/>
+ 	
+    <TextView 
+ 	android:id="@+id/txtDays"
+ 	android:layout_width="50dip"
+ 	android:layout_height="wrap_content"/>
+ 	
+    <TextView 
+ 	android:id="@+id/txtIssueDate"
+ 	android:layout_width="50dip"
+ 	android:layout_height="wrap_content"/>
+ 	
+    <TextView 
+ 	android:id="@+id/txtIssueBy"
+ 	android:layout_width="50dip"
+ 	android:layout_height="wrap_content"/>
+ 	
+    <TextView 
+ 	android:id="@+id/txtStatus"
+ 	android:layout_width="50dip"
+ 	android:layout_height="wrap_content"/>
+ 	
+</RelativeLayout>
