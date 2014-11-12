@@ -1,8 +1,9 @@
 package com.cgc.mobileappsig.eleave.common;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class WorkItem {
+public class WorkItem implements Serializable{
 
 	private String caseID;
 	private String leaveType;

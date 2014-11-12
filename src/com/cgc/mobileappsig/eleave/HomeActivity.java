@@ -84,7 +84,7 @@ public class HomeActivity extends Activity {
 	public void ShowHomePage(String EID){
 		
 		RequestParams params = new RequestParams();
-		params.put("EID", "ELEAERI");
+		params.put("EID", EID);
 		
 		EleaveAppClient.post("Users/leaveinfo", params, new AsyncHttpResponseHandler(){
         	

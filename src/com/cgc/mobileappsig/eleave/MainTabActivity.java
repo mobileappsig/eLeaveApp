@@ -35,8 +35,8 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
 	private Intent iTodo;
 	private Button iexit;
 	private RadioButton btn_todo;
-	private BadgeView badge;
-	private Integer todo_num;
+	public static BadgeView badge;
+	public static Integer todo_num = 0;
 	
 	@Override  
     protected void onCreate(Bundle savedInstanceState) {  
@@ -59,12 +59,12 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
 	        	.setIndicator(getResources().getString(R.string.main_apply), getResources().getDrawable(R.drawable.icon_2_n))
 	        	.setContent(iApply));
 		
-		iReport = new Intent(this, WorkItemActivity.class);
+		iReport = new Intent(this, HomeActivity.class);
 		tabhost.addTab(tabhost.newTabSpec("iReport")
 		        	.setIndicator(getResources().getString(R.string.main_report), getResources().getDrawable(R.drawable.icon_3_n))
 		        	.setContent(iReport));
 		
-		iTodo = new Intent(this, HomeActivity.class);
+		iTodo = new Intent(this, WorkItemActivity.class);
 		tabhost.addTab(tabhost.newTabSpec("iTodo")
 		        	.setIndicator(getResources().getString(R.string.main_todo), getResources().getDrawable(R.drawable.icon_4_n))
 		        	.setContent(iTodo));
@@ -89,7 +89,7 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
 		badge = new BadgeView(this, btn_todo);
 		
 		// TO-DO: get the number of To-do items
-		todo_num = 3;
+		
 		if (todo_num > 0){
 			badge.setText(todo_num.toString());
 			badge.show();
@@ -146,7 +146,7 @@ public class MainTabActivity extends TabActivity implements OnCheckedChangeListe
 			this.tabhost.setCurrentTabByTag("iReport");
 			break;
 		case R.id.radio_todo:
-			this.tabhost.setCurrentTabByTag("itodo");
+			this.tabhost.setCurrentTabByTag("iTodo");
 			break;
 		}
 	}

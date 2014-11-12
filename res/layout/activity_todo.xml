@@ -1,35 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:gravity="center"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	>
-	
-    <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Manager Todo List"
-    android:textAppearance="?android:attr/textAppearanceLarge" />
-    
-	<!-- 查看物品列表的ListView -->
-	<ListView
-		android:id="@+id/ManagerTodoList"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-	/>
-	
-	<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Employee Todo List"
-    android:textAppearance="?android:attr/textAppearanceLarge" />
-    
-	<!-- 查看物品列表的ListView -->
-	<ListView
-		android:id="@+id/EmployeeTodoList"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-	/>
-
-</LinearLayout>
+<?xml version="1.0" encoding="utf-8"?>  
+  <!-- TabHost必须包含一个 TabWidget和一个FrameLayout-->   
+  <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/tabhost"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" >
+  
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">  
+            <!-- TabWidget的id属性必须为 @android:id/tabs-->              
+            <TabWidget android:id="@android:id/tabs" android:orientation="horizontal" android:layout_width="fill_parent"  
+              android:layout_height="wrap_content" />  
+            <!-- FrameLayout的id属性必须为 @android:id/tabcontent-->  
+             <FrameLayout android:id="@android:id/tabcontent" android:layout_width="fill_parent" android:layout_height="fill_parent">  
+                <ScrollView
+					        android:id="@+id/managerview"
+					        android:layout_width="match_parent"
+					        android:layout_height="wrap_content" >
+					
+					        <LinearLayout
+					            android:orientation="vertical" 
+					            android:layout_width="match_parent"
+					        	android:layout_height="wrap_content" >
+					            
+									<ListView
+										android:id="@+id/ManagerTodoList"
+										android:layout_width="wrap_content"
+										android:layout_height="440dp"/>
+					        
+					        </LinearLayout>
+					    
+					    </ScrollView>
+						
+					    <ScrollView
+					        android:id="@+id/emploeeview"
+					        android:layout_width="match_parent"
+					        android:layout_height="wrap_content" >
+					
+					        <LinearLayout
+					            android:layout_width="match_parent"
+					            android:layout_height="match_parent"
+					            android:orientation="vertical" >
+									
+								    
+								<ListView
+									android:id="@+id/EmployeeTodoList"
+									android:layout_width="wrap_content"
+									android:layout_height="340dp"/>
+						
+							</LinearLayout>
+					    
+					    </ScrollView>
+					    
+						<TextView
+						    android:id="@+id/elist"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:textAppearance="?android:attr/textAppearanceLarge" />
+						
+						<TextView
+						    android:id="@+id/mlist"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:textAppearance="?android:attr/textAppearanceLarge" />
+             </FrameLayout>  
+         </LinearLayout>  
+    </TabHost>

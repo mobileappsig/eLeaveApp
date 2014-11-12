@@ -39,6 +39,9 @@
             android:name="com.cgc.mobileappsig.eleave.HomeActivity"/>
         <activity
             android:name="com.cgc.mobileappsig.eleave.ApplyActivity"/>
-
+        <activity
+            android:name="com.cgc.mobileappsig.eleave.WorkItemActivity"/>           
+        <activity
+            android:name="com.cgc.mobileappsig.eleave.CaseDetailActivity"/>           
     </application>
 </manifest>
