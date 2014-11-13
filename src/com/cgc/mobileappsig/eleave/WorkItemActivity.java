@@ -60,17 +60,17 @@ public class WorkItemActivity extends Activity {
 	private Button btnReject;
 	
 	private ArrayAdapter<String> employeeArrayAdapter;
-	private ArrayAdapter <String> mangerrrayAdapter;
+	private ArrayAdapter <String> managerArrayAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_todo);
 		
-		// 获取TabHost对象  
+		// 鑾峰彇TabHost瀵硅薄  
         TabHost tabHost = (TabHost) findViewById(R.id.tabhost);  
         
-        // 如果没有继承TabActivity时，通过该种方法加载启动tabHost  
+        // 濡傛灉娌℃湁缁ф壙TabActivity鏃讹紝閫氳繃璇ョ鏂规硶鍔犺浇鍚姩tabHost  
         tabHost.setup();  
         
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("->")  
@@ -98,7 +98,14 @@ public class WorkItemActivity extends Activity {
 		
 		//getWorkItems();// get the work item lists from the server
 		
-		addWorkItems(); // add the work item into list view	
+		//addWorkItems(); // add the work item into list view	
+		employeetodolist = (ListView) findViewById(R.id.EmployeeTodoList);
+		employeeArrayAdapter = new ArrayAdapter <String>(this,android.R.layout.simple_expandable_list_item_1,stringListforEmployee);
+		employeetodolist.setAdapter(employeeArrayAdapter);
+
+		managertodolist = (ListView) findViewById(R.id.ManagerTodoList);
+		managerArrayAdapter = new ArrayAdapter <String> (this, android.R.layout.simple_expandable_list_item_1,stringListforMgr);
+		managertodolist.setAdapter(managerArrayAdapter);
 	
 		managertodolist.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -134,7 +141,7 @@ public class WorkItemActivity extends Activity {
 		
 		// Get the work item list again for every time this activity is resumed,
 		// as the list may be changed when the activity is suspended. 
-		//addWorkItems();
+		getWorkItems();
 		
 	}
 
@@ -211,6 +218,11 @@ public class WorkItemActivity extends Activity {
 				                	workItemListforMgr.add(tmpItem);
           	                	
 			                    }
+			                    
+			                    if (managertodocount > 0) {
+			                    	managerArrayAdapter.notifyDataSetChanged();
+			                    	managertodolist.setAdapter(managerArrayAdapter);
+			                    }
 	                        }
 	                    	                    
                     }
@@ -251,6 +263,11 @@ public class WorkItemActivity extends Activity {
 				                	workItemListforEmployee.add(tmpItem);			                	
 				          
 				                	
+			                    }
+			                    
+			                    if (employeetodocount > 0) {
+			                    	employeeArrayAdapter.notifyDataSetChanged();
+			                    	employeetodolist.setAdapter(employeeArrayAdapter);
 			                    }
 		                    }
                     }
@@ -338,12 +355,12 @@ public class WorkItemActivity extends Activity {
 	private void viewItemDetail(AdapterView<?> parent,int position)
 	{
 		
-		// 加载detail.xml界面布局代表的视图
+		// 鍔犺浇detail.xml鐣岄潰甯冨眬浠ｈ〃鐨勮鍥�
 		View detailView = getLayoutInflater().inflate(R.layout.activity_case_detail, null);
-		// 获取detail.xml界面布局中的文本框
+		// 鑾峰彇detail.xml鐣岄潰甯冨眬涓殑鏂囨湰妗�
 		final EditText itemName = (EditText) detailView.findViewById(R.id.case_detail);
 
-		// 获取被单击的列表项
+		// 鑾峰彇琚崟鍑荤殑鍒楄〃椤�
 		String ItemDetail = (String) parent.getAdapter().getItem(position);
 		Log.e("Print list item", ItemDetail);
 //		Toast.makeText(WorkItemActivity.this, ItemDetail,Toast.LENGTH_LONG).show();
@@ -395,7 +412,7 @@ public class WorkItemActivity extends Activity {
 	private void viewItem(AdapterView<?> parent,int position)
 	{
 		
-		// 获取被单击的列表项
+		// 鑾峰彇琚崟鍑荤殑鍒楄〃椤�
 		String ItemDetail = (String) parent.getAdapter().getItem(position);
 		String Caseid = ItemDetail.substring(9, 19);
 		
@@ -412,7 +429,7 @@ public class WorkItemActivity extends Activity {
 	private void choseItem(AdapterView<?> parent,int position)
 	{
 		
-		// 获取被单击的列表项
+		// 鑾峰彇琚崟鍑荤殑鍒楄〃椤�
 		String ItemDetail = (String) parent.getAdapter().getItem(position);
 		String Caseid = ItemDetail.substring(9, 19);
 		

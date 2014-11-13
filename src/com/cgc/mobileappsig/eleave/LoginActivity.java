@@ -109,7 +109,7 @@ public class LoginActivity extends Activity {
                         	Log.e("Employee Role", EmployeeRole);
                         	
                         	Intent cSwitchIntent = new Intent();
-                			cSwitchIntent.setClass(LoginActivity.this,LoadingActivity.class);  
+                			cSwitchIntent.setClass(LoginActivity.this,MainTabActivity.class);  
                             startActivity(cSwitchIntent);
                             LoginActivity.this.finish();
                             break;
