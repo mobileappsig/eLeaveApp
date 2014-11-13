@@ -5,12 +5,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.cgc.mobileappsig.eleave.common.EleaveAppClient;
+import com.cgc.mobileappsig.eleave.common.ExitApplication;
 import com.cgc.mobileappsig.eleave.common.WorkItem;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -131,39 +134,51 @@ public class CaseDetailActivity extends Activity {
 		btnApprove.setOnClickListener(new OnClickListener(){
 
 			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				RequestParams params = new RequestParams();
-				params.put("CaseId", caseItem.getCaseID()); 
-				
-				EleaveAppClient.post("Leave/approveleave", params, new AsyncHttpResponseHandler(){
-					@Override
-		        	public void onSuccess(String response) {
-		        		Log.e("debug",response);
-		        		
-		        		if (response == null)
-		                    return;
-		        		
-		                try {
-		                    JSONObject jsonObject = new JSONObject(response);
-		                    
-//		                    Toast.makeText(CaseDetailActivity.this, "Request Approved!", Toast.LENGTH_SHORT).show();
-		                    
-		                } catch (JSONException e) {
-		                    e.printStackTrace();
-		                }
-		        		
-					}
+			public void onClick(View arg0) {	
+				  
+	    		
+	    		new AlertDialog.Builder(CaseDetailActivity.this)
+				 .setTitle("Info") 
+				 .setMessage("Are you sure to approve?")
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener() { 
+			        public void onClick(DialogInterface dialog, int whichButton) { 
+			        	// TODO Auto-generated method stub
+						RequestParams params = new RequestParams();
+						params.put("CaseId", caseItem.getCaseID()); 
+						
+						EleaveAppClient.post("Leave/approveleave", params, new AsyncHttpResponseHandler(){
+							@Override
+				        	public void onSuccess(String response) {
+				        		Log.e("debug",response);
+				        		
+				        		if (response == null)
+				                    return;
+				        		
+				                try {
+				                    JSONObject jsonObject = new JSONObject(response);
+				                    
+//				                    Toast.makeText(CaseDetailActivity.this, "Request Approved!", Toast.LENGTH_SHORT).show();
+				                    
+				                } catch (JSONException e) {
+				                    e.printStackTrace();
+				                }
+				        		
+							}
+							
+							public void onFailure(Throwable arg0) { 
+				        		Toast.makeText(CaseDetailActivity.this, "on Failure",Toast.LENGTH_LONG).show();
+				        		Log.e("debug",arg0.getMessage());
+				        	};
+							
+						});
+						
+						back();
 					
-					public void onFailure(Throwable arg0) { 
-		        		Toast.makeText(CaseDetailActivity.this, "on Failure",Toast.LENGTH_LONG).show();
-		        		Log.e("debug",arg0.getMessage());
-		        	};
-					
-				});
-				
-				back();
-			}
+			    }})
+				.setNegativeButton("No", null)
+				.show();
+	    	
+				}
 			
 		});
 		
