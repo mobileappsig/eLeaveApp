@@ -219,19 +219,17 @@ public class WorkItemActivity extends Activity {
           	                	
 			                    }
 			                    
-			                    if (managertodocount > 0) {
-			                    	runOnUiThread(new Runnable(){
+			                    runOnUiThread(new Runnable(){
 
-										@Override
-										public void run() {
-											// TODO Auto-generated method stub
-											managerArrayAdapter.notifyDataSetChanged();
-					                    	managertodolist.setAdapter(managerArrayAdapter);
-										}
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										managerArrayAdapter.notifyDataSetChanged();
+					                    managertodolist.setAdapter(managerArrayAdapter);
+									}
 			                    		
-			                    	});
+			                    });
 			             
-			                    }
 	                        }
 	                    	                    
                     }
@@ -274,19 +272,18 @@ public class WorkItemActivity extends Activity {
 				                	
 			                    }
 			                    
-			                    if (employeetodocount > 0) {
-			                    	runOnUiThread(new Runnable(){
+			                    runOnUiThread(new Runnable(){
 
-										@Override
-										public void run() {
-											// TODO Auto-generated method stub
-											employeeArrayAdapter.notifyDataSetChanged();
-					                    	employeetodolist.setAdapter(employeeArrayAdapter);
-										}
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										employeeArrayAdapter.notifyDataSetChanged();
+					                    employeetodolist.setAdapter(employeeArrayAdapter);
+									}
 			                    		
-			                    	});
+			                    });
 			                    	
-			                    }
+
 		                    }
                     }
 	                
