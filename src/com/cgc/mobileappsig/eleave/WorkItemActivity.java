@@ -67,23 +67,23 @@ public class WorkItemActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_todo);
 		
-		// 鑾峰彇TabHost瀵硅薄  
+		// é‘¾å³°å½‡TabHostç€µç¡…è–„  
         TabHost tabHost = (TabHost) findViewById(R.id.tabhost);  
         
-        // 濡傛灉娌℃湁缁ф壙TabActivity鏃讹紝閫氳繃璇ョ鏂规硶鍔犺浇鍚姩tabHost  
+        // æ¿¡å‚›ç�‰å¨Œâ„ƒæ¹�ç¼�Ñ„å£™TabActivityé�ƒè®¹ç´�é–«æ°³ç¹ƒç’‡ãƒ§îžŒé�‚è§„ç¡¶é�”çŠºæµ‡é�šîˆšå§©tabHost  
         tabHost.setup();  
         
-        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("->")  
-                .setContent(R.id.elist));
+//        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("->")  
+//                .setContent(R.id.elist));
         
-        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("Employee Todo List")  
+        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("Employee Todo List")  
                 .setContent(R.id.emploeeview));
         
         Log.e("LoginActivity.EmployeeRole", LoginActivity.EmployeeRole);
         
         if (LoginActivity.EmployeeRole.equals("manager") ){
         	
-              	tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator("Manager Todo List")
+              	tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("Manager Todo List")
                		.setContent(R.id.managerview)); 
         }
      
@@ -225,7 +225,7 @@ public class WorkItemActivity extends Activity {
 									public void run() {
 										// TODO Auto-generated method stub
 										managerArrayAdapter.notifyDataSetChanged();
-					                    managertodolist.setAdapter(managerArrayAdapter);
+					                    //managertodolist.setAdapter(managerArrayAdapter);
 									}
 			                    		
 			                    });
@@ -278,7 +278,7 @@ public class WorkItemActivity extends Activity {
 									public void run() {
 										// TODO Auto-generated method stub
 										employeeArrayAdapter.notifyDataSetChanged();
-					                    employeetodolist.setAdapter(employeeArrayAdapter);
+					                    //employeetodolist.setAdapter(employeeArrayAdapter);
 									}
 			                    		
 			                    });
@@ -346,13 +346,13 @@ public class WorkItemActivity extends Activity {
                     MainTabActivity.badge.show();
                 }
                 
-        		elist = (TextView) findViewById(R.id.elist);
-    			String elisttext = "You have "+ employeetodocount+" unclosed case(s)!\n\nClick the Item in the EMPLOYEE TODO LIST to show detail!";
-    			
-	    		if (LoginActivity.EmployeeRole.equals("manager")){
-	    			elisttext = elisttext + "\n\n\nAnd " + managertodocount +" case(s) need you to handle!\n\nClick the Item in the MANAGER TODO LIST to show detail!";
-	    		}
-	    		elist.setText(elisttext);
+//        		elist = (TextView) findViewById(R.id.elist);
+//    			String elisttext = "You have "+ employeetodocount+" unclosed case(s)!\n\nClick the Item in the EMPLOYEE TODO LIST to show detail!";
+//    			
+//	    		if (LoginActivity.EmployeeRole.equals("manager")){
+//	    			elisttext = elisttext + "\n\n\nAnd " + managertodocount +" case(s) need you to handle!\n\nClick the Item in the MANAGER TODO LIST to show detail!";
+//	    		}
+//	    		elist.setText(elisttext);
     		
 			}
 			
@@ -370,12 +370,12 @@ public class WorkItemActivity extends Activity {
 	private void viewItemDetail(AdapterView<?> parent,int position)
 	{
 		
-		// 鍔犺浇detail.xml鐣岄潰甯冨眬浠ｈ〃鐨勮鍥�
+		// é�”çŠºæµ‡detail.xmlé�£å²„æ½°ç”¯å†¨çœ¬æµ ï½ˆã€ƒé�¨å‹®îž…é�¥ï¿½
 		View detailView = getLayoutInflater().inflate(R.layout.activity_case_detail, null);
-		// 鑾峰彇detail.xml鐣岄潰甯冨眬涓殑鏂囨湰妗�
+		// é‘¾å³°å½‡detail.xmlé�£å²„æ½°ç”¯å†¨çœ¬æ¶“î… æ®‘é�‚å›¨æ¹°å¦—ï¿½
 		final EditText itemName = (EditText) detailView.findViewById(R.id.case_detail);
 
-		// 鑾峰彇琚崟鍑荤殑鍒楄〃椤�
+		// é‘¾å³°å½‡ç�šî‚¢å´Ÿé�‘è�¤æ®‘é�’æ¥„ã€ƒæ¤¤ï¿½
 		String ItemDetail = (String) parent.getAdapter().getItem(position);
 		Log.e("Print list item", ItemDetail);
 //		Toast.makeText(WorkItemActivity.this, ItemDetail,Toast.LENGTH_LONG).show();
@@ -427,7 +427,7 @@ public class WorkItemActivity extends Activity {
 	private void viewItem(AdapterView<?> parent,int position)
 	{
 		
-		// 鑾峰彇琚崟鍑荤殑鍒楄〃椤�
+		// é‘¾å³°å½‡ç�šî‚¢å´Ÿé�‘è�¤æ®‘é�’æ¥„ã€ƒæ¤¤ï¿½
 		String ItemDetail = (String) parent.getAdapter().getItem(position);
 		String Caseid = ItemDetail.substring(9, 19);
 		
@@ -444,7 +444,7 @@ public class WorkItemActivity extends Activity {
 	private void choseItem(AdapterView<?> parent,int position)
 	{
 		
-		// 鑾峰彇琚崟鍑荤殑鍒楄〃椤�
+		// é‘¾å³°å½‡ç�šî‚¢å´Ÿé�‘è�¤æ®‘é�’æ¥„ã€ƒæ¤¤ï¿½
 		String ItemDetail = (String) parent.getAdapter().getItem(position);
 		String Caseid = ItemDetail.substring(9, 19);
 		
