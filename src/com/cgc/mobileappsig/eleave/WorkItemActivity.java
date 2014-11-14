@@ -2,6 +2,7 @@ package com.cgc.mobileappsig.eleave;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,8 +43,8 @@ public class WorkItemActivity extends Activity {
 	private ArrayList<WorkItem> workItemListforMgr, workItemListforEmployee;
 	private ArrayList<String> stringListforMgr, stringListforEmployee;
 	private boolean isManager = false;
-	ListView employeetodolist;
-	ListView managertodolist;
+//	ListView employeetodolist;
+//	ListView managertodolist;
 	TextView mlist;
 	TextView elist;
 	private TextView TextView;
@@ -62,6 +63,16 @@ public class WorkItemActivity extends Activity {
 	private ArrayAdapter<String> employeeArrayAdapter;
 	private ArrayAdapter <String> managerArrayAdapter;
 	
+	private SimpleAdapter adapterMgr = null;
+	private SimpleAdapter adapterEmp = null;
+	
+	private List<HashMap<String, String>> dataMgr = new ArrayList<HashMap<String,String>>();
+	private List<HashMap<String, String>> dataEmp = new ArrayList<HashMap<String,String>>();
+	
+	ListView managertodolist = null;
+	ListView employeetodolist = null;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -76,37 +87,48 @@ public class WorkItemActivity extends Activity {
 //        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("->")  
 //                .setContent(R.id.elist));
         
-        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("Employee Todo List")  
+        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("Employee")  
                 .setContent(R.id.emploeeview));
         
         Log.e("LoginActivity.EmployeeRole", LoginActivity.EmployeeRole);
         
         if (LoginActivity.EmployeeRole.equals("manager") ){
         	
-              	tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("Manager Todo List")
+              	tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("Manager")
                		.setContent(R.id.managerview)); 
         }
      
   			
-		workItemListforMgr = new ArrayList<WorkItem>(); //The work item list for manager
-		workItemListforEmployee = new ArrayList<WorkItem>(); // The work item list for employee
-		
-		stringListforMgr = new  ArrayList<String>();
-		stringListforEmployee = new ArrayList<String>();
+//		workItemListforMgr = new ArrayList<WorkItem>(); //The work item list for manager
+//		workItemListforEmployee = new ArrayList<WorkItem>(); // The work item list for employee
+//		
+//		stringListforMgr = new  ArrayList<String>();
+//		stringListforEmployee = new ArrayList<String>();
 		
 		//TO-DO: Render the UI with the data in the work item lists.
 		
 		//getWorkItems();// get the work item lists from the server
 		
 		//addWorkItems(); // add the work item into list view	
+//		employeetodolist = (ListView) findViewById(R.id.EmployeeTodoList);
+//		employeeArrayAdapter = new ArrayAdapter <String>(this,android.R.layout.simple_expandable_list_item_1,stringListforEmployee);
+//		employeetodolist.setAdapter(employeeArrayAdapter);
+//
+//		managertodolist = (ListView) findViewById(R.id.ManagerTodoList);
+//		managerArrayAdapter = new ArrayAdapter <String> (this, android.R.layout.simple_expandable_list_item_1,stringListforMgr);
+//		managertodolist.setAdapter(managerArrayAdapter);
+        
+        managertodolist = (ListView) findViewById(R.id.ManagerTodoList);
+		adapterMgr = new SimpleAdapter(WorkItemActivity.this, dataMgr, R.layout.activity_list_item,   
+                new String[]{"CaseID", "EnglishName", "LeaveType", "IssuedDate"}, new int[]{R.id.CaseID, R.id.EnglishName, R.id.LeaveType, R.id.IssuedDate}); 
+		managertodolist.setAdapter(adapterMgr);	
+		
 		employeetodolist = (ListView) findViewById(R.id.EmployeeTodoList);
-		employeeArrayAdapter = new ArrayAdapter <String>(this,android.R.layout.simple_expandable_list_item_1,stringListforEmployee);
-		employeetodolist.setAdapter(employeeArrayAdapter);
-
-		managertodolist = (ListView) findViewById(R.id.ManagerTodoList);
-		managerArrayAdapter = new ArrayAdapter <String> (this, android.R.layout.simple_expandable_list_item_1,stringListforMgr);
-		managertodolist.setAdapter(managerArrayAdapter);
-	
+		adapterEmp = new SimpleAdapter(WorkItemActivity.this, dataEmp, R.layout.activity_list_item,   
+            new String[]{"CaseID", "EnglishName", "LeaveType", "IssuedDate"}, new int[]{R.id.CaseID, R.id.EnglishName, R.id.LeaveType, R.id.IssuedDate}); 
+		employeetodolist.setAdapter(adapterEmp);
+		
+		
 		managertodolist.setOnItemClickListener(new OnItemClickListener()
 		{
 			@Override
@@ -154,10 +176,12 @@ public class WorkItemActivity extends Activity {
 	
 	private void getWorkItems() {
 		
-		workItemListforMgr.clear();
-		workItemListforEmployee.clear();
-		stringListforEmployee.clear();
-		stringListforMgr.clear();
+//		workItemListforMgr.clear();
+//		workItemListforEmployee.clear();
+//		stringListforEmployee.clear();
+//		stringListforMgr.clear();
+	    dataMgr.clear();
+	    dataEmp.clear();
 		
 		RequestParams params = new RequestParams();
 		params.put("EID", LoginActivity.EID);
@@ -183,7 +207,6 @@ public class WorkItemActivity extends Activity {
                     JSONObject jsonObject = new JSONObject(response);
                     
                     if(jsonObject.has("Manager")){
-                    	
                         Log.e("debug","AS Manager to list "+jsonObject.getString("Manager"));
                         JSONObject jsonObjectResultSet = new JSONObject(jsonObject.getString("Manager"));
      
@@ -201,21 +224,38 @@ public class WorkItemActivity extends Activity {
 			                	
 				                	JSONObject jObject = jsonArrayCase.getJSONObject(i);
 				                    
-				                	WorkItem tmpItem = new WorkItem();
-				                	Log.e("debug","jObject.getString(CaseId)=++++"+jObject.getString("CaseId"));
-				                	tmpItem.setCaseID(jObject.getString("CaseId"));
-				                	Log.e("debug","jObject.getString(LeaveTypeName)=++++"+jObject.getString("LeaveTypeName"));
-				                	tmpItem.setLeaveType(jObject.getString("LeaveTypeName"));
-				                	Log.e("debug","jObject.getString(EnglisthName)=++++"+jObject.getString("EnglisthName"));
-				                	tmpItem.setIssueBy(jObject.getString("EnglisthName"));
-				                	Log.e("debug","jObject.getString(IssuedDate)=++++"+jObject.getString("IssuedDate"));
-				                	tmpItem.setIssueDate(jObject.getString("IssuedDate"));
-				                	//tmpItem.setDays(jObject.getInt("LeaveDays"));
-				                	//tmpItem.setStatus(jObject.getString("StatusName"));
+//				                	WorkItem tmpItem = new WorkItem();
+//				                	Log.e("debug","jObject.getString(CaseId)=++++"+jObject.getString("CaseId"));
+//				                	tmpItem.setCaseID(jObject.getString("CaseId"));
+//				                	Log.e("debug","jObject.getString(LeaveTypeName)=++++"+jObject.getString("LeaveTypeName"));
+//				                	tmpItem.setLeaveType(jObject.getString("LeaveTypeName"));
+//				                	Log.e("debug","jObject.getString(EnglisthName)=++++"+jObject.getString("EnglisthName"));
+//				                	tmpItem.setIssueBy(jObject.getString("EnglisthName"));
+//				                	Log.e("debug","jObject.getString(IssuedDate)=++++"+jObject.getString("IssuedDate"));
+//				                	tmpItem.setIssueDate(jObject.getString("IssuedDate"));
+//				                	//tmpItem.setDays(jObject.getInt("LeaveDays"));
+//				                	//tmpItem.setStatus(jObject.getString("StatusName"));
+//				                	
+//				                	String list = "Case ID: " + tmpItem.getCaseID() + "\nIssued By: " + tmpItem.getIssueBy();
+//				                	stringListforMgr.add(list);
+//				                	workItemListforMgr.add(tmpItem);
 				                	
-				                	String list = "Case ID: " + tmpItem.getCaseID() + "\nIssued By: " + tmpItem.getIssueBy();
-				                	stringListforMgr.add(list);
-				                	workItemListforMgr.add(tmpItem);
+				                	
+
+			                            
+			                        HashMap<String, String> item = new HashMap<String, String>(); 
+			                            
+			                        item.put("CaseID",jObject.getString("CaseId"));
+			                        item.put("EnglishName", jObject.getString("EnglisthName"));	 
+			                        if(jObject.getString("LeaveTypeName").contains("Annual"))
+			                        	item.put("LeaveType", "Annual");
+			                        //item.put("LeaveType", jObject.getString("LeaveTypeName"))
+			                        item.put("IssuedDate",jObject.getString("IssuedDate").substring(0, 10));
+			                            
+			                        dataMgr.add(item);
+				                	
+				                	
+				                	
           	                	
 			                    }
 			                    
@@ -224,7 +264,8 @@ public class WorkItemActivity extends Activity {
 									@Override
 									public void run() {
 										// TODO Auto-generated method stub
-										managerArrayAdapter.notifyDataSetChanged();
+										//managerArrayAdapter.notifyDataSetChanged();
+										adapterMgr.notifyDataSetChanged();
 					                    //managertodolist.setAdapter(managerArrayAdapter);
 									}
 			                    		
@@ -253,21 +294,34 @@ public class WorkItemActivity extends Activity {
 			                	
 				                	JSONObject jObject = jsonArrayCase.getJSONObject(i);
 				                    
-				                	WorkItem tmpItem = new WorkItem();
-				                	Log.e("debug","jObject.getString(CaseId)=++++"+jObject.getString("CaseId"));
-				                	tmpItem.setCaseID(jObject.getString("CaseId"));
-				                	Log.e("debug","jObject.getString(LeaveTypeName)=++++"+jObject.getString("LeaveTypeName"));
-				                	tmpItem.setLeaveType(jObject.getString("LeaveTypeName"));
-				                	Log.e("debug","jObject.getString(EnglisthName)=++++"+jObject.getString("EnglisthName"));
-				                	tmpItem.setIssueBy(jObject.getString("EnglisthName"));
-				                	Log.e("debug","jObject.getString(IssuedDate)=++++"+jObject.getString("IssuedDate"));
-				                	tmpItem.setIssueDate(jObject.getString("IssuedDate"));
-				                	//tmpItem.setDays(jObject.getInt("LeaveDays"));
-				                	//tmpItem.setStatus(jObject.getString("StatusName"));
+//				                	WorkItem tmpItem = new WorkItem();
+//				                	Log.e("debug","jObject.getString(CaseId)=++++"+jObject.getString("CaseId"));
+//				                	tmpItem.setCaseID(jObject.getString("CaseId"));
+//				                	Log.e("debug","jObject.getString(LeaveTypeName)=++++"+jObject.getString("LeaveTypeName"));
+//				                	tmpItem.setLeaveType(jObject.getString("LeaveTypeName"));
+//				                	Log.e("debug","jObject.getString(EnglisthName)=++++"+jObject.getString("EnglisthName"));
+//				                	tmpItem.setIssueBy(jObject.getString("EnglisthName"));
+//				                	Log.e("debug","jObject.getString(IssuedDate)=++++"+jObject.getString("IssuedDate"));
+//				                	tmpItem.setIssueDate(jObject.getString("IssuedDate"));
+//				                	//tmpItem.setDays(jObject.getInt("LeaveDays"));
+//				                	//tmpItem.setStatus(jObject.getString("StatusName"));
+//				                	
+//				                	String list = "Case ID: " + tmpItem.getCaseID() + "\nIssued By: " + tmpItem.getIssueBy();
+//				                	stringListforEmployee.add(list);
+//				                	workItemListforEmployee.add(tmpItem);		
 				                	
-				                	String list = "Case ID: " + tmpItem.getCaseID() + "\nIssued By: " + tmpItem.getIssueBy();
-				                	stringListforEmployee.add(list);
-				                	workItemListforEmployee.add(tmpItem);			                	
+          	                      
+		                            HashMap<String, String> item = new HashMap<String, String>(); 
+		                            
+		                            item.put("CaseID",jObject.getString("CaseId"));
+		                            item.put("EnglishName", jObject.getString("EnglisthName"));
+		                            if(jObject.getString("LeaveTypeName").contains("Annual"))
+			                        	item.put("LeaveType", "Annual");
+			                        //item.put("LeaveType", jObject.getString("LeaveTypeName"))
+		                            item.put("IssuedDate",jObject.getString("IssuedDate").substring(0, 10));
+		                           
+		                            
+		                            dataEmp.add(item);
 				          
 				                	
 			                    }
@@ -277,7 +331,8 @@ public class WorkItemActivity extends Activity {
 									@Override
 									public void run() {
 										// TODO Auto-generated method stub
-										employeeArrayAdapter.notifyDataSetChanged();
+										//employeeArrayAdapter.notifyDataSetChanged();
+										adapterEmp.notifyDataSetChanged();
 					                    //employeetodolist.setAdapter(employeeArrayAdapter);
 									}
 			                    		
@@ -340,11 +395,16 @@ public class WorkItemActivity extends Activity {
                     e.printStackTrace();
                 }
         		
+                
+                
                 MainTabActivity.todo_num =employeetodocount + managertodocount;
                 if ( MainTabActivity.todo_num >0){
                     MainTabActivity.badge.setText(MainTabActivity.todo_num.toString());
                     MainTabActivity.badge.show();
                 }
+                
+                
+                
                 
 //        		elist = (TextView) findViewById(R.id.elist);
 //    			String elisttext = "You have "+ employeetodocount+" unclosed case(s)!\n\nClick the Item in the EMPLOYEE TODO LIST to show detail!";
@@ -367,6 +427,7 @@ public class WorkItemActivity extends Activity {
 		
 	}
 	
+	//NOT used anymore
 	private void viewItemDetail(AdapterView<?> parent,int position)
 	{
 		
@@ -427,9 +488,12 @@ public class WorkItemActivity extends Activity {
 	private void viewItem(AdapterView<?> parent,int position)
 	{
 		
-		// 
-		String ItemDetail = (String) parent.getAdapter().getItem(position);
-		String Caseid = ItemDetail.substring(9, 19);
+		 
+//		String ItemDetail = (String) parent.getAdapter().getItem(position);
+//		String Caseid = ItemDetail.substring(9, 19);
+		
+		HashMap<String, String> itemDetail = (HashMap<String, String>) parent.getAdapter().getItem(position); 
+		String Caseid = itemDetail.get("CaseID");
 		
 		WorkItem chosenitem = new WorkItem();
 		chosenitem.setCaseID(Caseid);
@@ -440,13 +504,19 @@ public class WorkItemActivity extends Activity {
 		startActivity(intent);
 		
 	}
+			
 	
 	private void choseItem(AdapterView<?> parent,int position)
 	{
 		
 		// 
-		String ItemDetail = (String) parent.getAdapter().getItem(position);
-		String Caseid = ItemDetail.substring(9, 19);
+//		String ItemDetail = (String) parent.getAdapter().getItem(position);
+//		String Caseid = ItemDetail.substring(9, 19);
+		
+		HashMap<String, String> itemDetail = (HashMap<String, String>) parent.getAdapter().getItem(position); 
+			
+		Log.e("Mgr Item:", itemDetail.get("CaseID"));
+		String Caseid = itemDetail.get("CaseID");
 		
 		WorkItem chosenitem = new WorkItem();
 		chosenitem.setCaseID(Caseid);
@@ -458,6 +528,7 @@ public class WorkItemActivity extends Activity {
 		
 	}
 	
+	//Not used anymore
 	private void addWorkItems()
 	{
 		getWorkItems();

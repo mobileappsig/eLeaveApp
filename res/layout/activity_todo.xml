@@ -2,8 +2,8 @@
   <!-- TabHost必须包含一个 TabWidget和一个FrameLayout-->   
   <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
       android:id="@+id/tabhost"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content" >
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent" >
   
         <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">  
             <!-- TabWidget的id属性必须为 @android:id/tabs-->              
@@ -17,45 +17,122 @@
 					            android:orientation="vertical" 
 					            android:layout_width="match_parent"
 					        	android:layout_height="wrap_content" >
+					        	
+					        <LinearLayout
+					            android:orientation="horizontal" 
+					            android:layout_width="match_parent"
+					        	android:layout_height="wrap_content" >
 					            
+					            <TextView  
+								  android:id="@+id/CaseIDMgr"   
+								  android:layout_width="85dp"  
+								  android:layout_height="40dp" 
+								  android:textSize="15sp"
+							      android:textStyle="bold" 
+							      android:gravity = "left"
+								  android:text="CaseID"  
+								 />  
+								  
+								  <TextView  
+								  android:id="@+id/EnglishNameMgr"    
+								  android:layout_width="100dp"  
+								  android:layout_height="40dp" 
+								  android:textSize="15sp"
+							      android:textStyle="bold" 
+							      android:gravity = "left"
+								  android:text="EnglishName"  
+								 />  
+								 
+								 <TextView  
+								  android:id="@+id/LeaveTypeMgr"
+								  android:layout_width="100dp"  
+								  android:layout_height="40dp" 
+								  android:textSize="15sp"
+							      android:textStyle="bold"  
+							      android:gravity = "left"
+								  android:text="LeaveType"  
+								 /> 
+								  
+								 <TextView  
+								  android:id="@+id/IssuedDateMgr"   
+								  android:layout_width="100dp"  
+								  android:layout_height="40dp"  
+								  android:textSize="15sp"
+							      android:textStyle="bold" 
+							      android:gravity = "left"
+								  android:text="IssuedDate"  
+								 />  
+					           					     					            
+					           </LinearLayout> 
+					               
 									<ListView
 										android:id="@+id/ManagerTodoList"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"/>
-					        
-					        </LinearLayout>
+					      		</LinearLayout>     
 					    
-				
-						
-
-					
+					    					
 					        <LinearLayout
 					            android:id="@+id/emploeeview"
 					            android:layout_width="match_parent"
-					            android:layout_height="match_parent"
+					            android:layout_height="wrap_content"
 					            android:orientation="vertical" >
 									
+							 <LinearLayout
+					            android:layout_width="match_parent"
+					            android:layout_height="wrap_content"
+					            android:orientation="horizontal" >		
+								
+					            <TextView  
+								  android:id="@+id/CaseIDEmp"   
+								  android:layout_width="85dp"  
+								  android:layout_height="40dp"
+								  android:textSize="15sp"
+							      android:textStyle="bold"   
+							      android:gravity = "left"
+								  android:text="CaseID"  
+								 />  
+								  
+								  <TextView  
+								  android:id="@+id/EnglishNameEmp"    
+								  android:layout_width="100dp"  
+								  android:layout_height="40dp" 
+								  android:textSize="15sp"
+							      android:textStyle="bold"  
+							      android:gravity = "left"
+								  android:text="EnglishName"  
+								 />  
+								   
+								<TextView  
+								  android:id="@+id/LeaveTypeEmp"
+								  android:layout_width="100dp"  
+								  android:layout_height="40dp"  
+								  android:textSize="15sp"
+							      android:textStyle="bold" 
+							      android:gravity = "left"
+								  android:text="LeaveType"  
+								 /> 
+								  
+								  
+								 <TextView  
+								  android:id="@+id/IssuedDateEmp"   
+								  android:layout_width="100dp"  
+								  android:layout_height="40dp" 
+								  android:textSize="15sp"
+							      android:textStyle="bold"  
+							      android:gravity = "left"
+								  android:text="IssuedDate"  
+								 />  
+								 
+								</LinearLayout>				            					            					            	            
 								    
 								<ListView
 									android:id="@+id/EmployeeTodoList"
 									android:layout_width="wrap_content"
 									android:layout_height="wrap_content"/>
 						
-							</LinearLayout>
-					    
+							</LinearLayout>					    
 
-					    
-						<TextView
-						    android:id="@+id/elist"
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:textAppearance="?android:attr/textAppearanceLarge" />
-						
-						<TextView
-						    android:id="@+id/mlist"
-						    android:layout_width="wrap_content"
-						    android:layout_height="wrap_content"
-						    android:textAppearance="?android:attr/textAppearanceLarge" />
              </FrameLayout>  
          </LinearLayout>  
     </TabHost>

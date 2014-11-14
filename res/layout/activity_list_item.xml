@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<!--item -->  <LinearLayout  
+  xmlns:android="http://schemas.android.com/apk/res/android"  
+  android:id="@+id/LayoutListItem"
+  android:orientation="horizontal"  
+  android:layout_width="fill_parent"  
+  android:layout_height="wrap_content"
+  android:background="#00eeee"
+  >  
+  
+  <TextView  
+   android:id="@+id/CaseID" 
+   android:layout_width="85dp"  
+   android:layout_height="50dp"
+   android:textSize="15sp" 
+   android:gravity="center_vertical"  
+   android:typeface="sans"
+  />  
+  
+ 
+   <TextView  
+   android:id="@+id/EnglishName" 
+   android:layout_width="100dp"  
+   android:layout_height="50dp" 
+   android:textSize="15sp" 
+   android:gravity="center_vertical"  
+   android:typeface="sans" 
+
+  /> 
+  
+    <TextView  
+   android:id="@+id/LeaveType" 
+   android:layout_width="100dp"  
+   android:layout_height="50dp"
+   android:textSize="15sp" 
+   android:gravity="center_vertical"   
+   android:typeface="sans"  
+   />
+    
+     <TextView  
+   android:id="@+id/IssuedDate" 
+   android:layout_width="100dp"  
+   android:layout_height="50dp" 
+   android:textSize="15sp" 
+   android:gravity="center_vertical"   
+   android:typeface="sans"   
+  />  
+  
+
+   
+</LinearLayout> 

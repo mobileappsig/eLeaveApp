@@ -1,0 +1,149 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".CaseDetailActivity"> 
+    
+    					       <LinearLayout
+					            android:id="@+id/CaseDetailView"
+					            android:orientation="vertical" 
+					            android:layout_width="match_parent"
+					        	android:layout_height="wrap_content" >
+					        	
+					       <LinearLayout
+					            android:orientation="horizontal" 
+					            android:layout_width="match_parent"
+					        	android:layout_height="wrap_content" >
+					            
+					            <TextView  
+								  android:id="@+id/CaseEmployeeID"   
+								  android:layout_width="80dp"  
+								  android:layout_height="wrap_content" 
+								  android:textSize="18sp"
+							      android:textStyle="bold" 
+							      android:textColor="#0000FF"
+								  android:text="Employee ID"  
+								 />  
+								  
+								  <TextView  
+								  android:id="@+id/CaseLeaveType"    
+								  android:layout_width="80dp"  
+								  android:layout_height="wrap_content" 
+								  android:textSize="18sp"
+								  android:textColor="#0000FF"
+							      android:textStyle="bold" 
+								  android:text="Leave Type"  
+								 />  
+								 
+								 <TextView  
+								  android:id="@+id/CaseStatus"
+								  android:layout_width="100dp"  
+								  android:layout_height="wrap_content" 
+								  android:textSize="18sp"
+								  android:textColor="#0000FF"
+							      android:textStyle="bold"  
+								  android:text="Status"  
+								 /> 								  				
+					           		
+								 <TextView  
+								  android:id="@+id/CaseTotalDays"
+								  android:layout_width="80dp"  
+								  android:layout_height="wrap_content" 
+								  android:textSize="18sp"
+								  android:textColor="#0000FF"
+							      android:textStyle="bold"  
+								  android:text="Total Days"  
+								 /> 	
+								 		     					            
+					           </LinearLayout> 
+					           
+					       <LinearLayout
+					            android:orientation="horizontal" 
+					            android:layout_width="match_parent"
+					        	android:layout_height="wrap_content" >
+					            
+					            <TextView  
+								  android:id="@+id/CaseEmployeeIDText"   
+								  android:layout_width="80dp"  
+								  android:layout_height="wrap_content" 
+								  android:textSize="15sp"
+							      android:textStyle="bold"  
+								 />  
+								  
+								  <TextView  
+								  android:id="@+id/CaseLeaveTypeText"    
+								  android:layout_width="80dp"  
+								  android:layout_height="wrap_content" 
+								  android:textSize="15sp"
+							      android:textStyle="bold"  
+								 />  
+								 
+								 <TextView  
+								  android:id="@+id/CaseStatusText"
+								  android:layout_width="100dp"  
+								  android:layout_height="wrap_content" 
+								  android:textSize="15sp"
+							      android:textStyle="bold"  
+								 /> 			
+								 
+								 <TextView  
+								  android:id="@+id/CaseTotalDaysText"
+								  android:layout_width="80dp"  
+								  android:layout_height="wrap_content" 
+								  android:textSize="15sp"
+							      android:textStyle="bold"  
+								 /> 						  				
+					           					     					            
+					           </LinearLayout> 					      					     
+					       		
+					       		<TextView
+								android:id="@+id/CaseDetailTextView"
+								android:layout_width="fill_parent"
+								android:textSize="25sp"
+							    android:textStyle="bold" 
+							    android:textColor="#0000FF"
+							    android:gravity = "center"
+							    android:text="Leave Date(s)"
+								android:layout_height="wrap_content"/>
+					       					       							       			               
+									<ListView
+										android:id="@+id/CaseListView"
+										android:layout_width="wrap_content"
+										android:layout_height="wrap_content"/>
+					      		</LinearLayout>  
+    
+    
+
+    <Button
+        android:id="@+id/btn_approve"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentLeft="true"
+        android:text="Approve" />
+
+    <Button
+        android:id="@+id/btn_reject"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="Reject"/>
+    
+     <Button
+         android:id="@+id/btn_cancel"
+         android:layout_width="100dp"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:layout_marginBottom="20dp"
+         android:layout_alignParentRight="true"
+         android:text="Return" />
+
+</RelativeLayout>

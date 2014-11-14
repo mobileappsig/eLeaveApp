@@ -90,7 +90,7 @@ public class HomeActivity extends Activity {
         	
         	@Override
         	public void onSuccess(String response) {
-        		Log.e("debug",response);
+        		Log.e("User Leave Info",response);
                 //Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
 
         		if (response == null)
@@ -117,12 +117,14 @@ public class HomeActivity extends Activity {
                     case 200:
                     	if(jsonObject.has("EmployeeId")) EmployeeNum = jsonObject.getInt("EmployeeId");                  	     
                  	        
-                    	Log.e("debug", EmployeeNum+"");
+                    	Log.e("EmployeeNum", EmployeeNum+"");
                     	
                     	String EnglishName = null;
+                    	
                     	if(jsonObject.has("EnglisthName")) EnglishName = jsonObject.getString("EnglisthName");                  	
                     	TextView tv_en = (TextView)findViewById(R.id.tv_eid);
                     	tv_en.setText(EnglishName);
+             
                                  
                     	String EmploymentDate = null;
                     	if(jsonObject.has("EmploymentDate")) EmploymentDate = jsonObject.getString("EmploymentDate");                    	
