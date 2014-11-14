@@ -43,7 +43,6 @@ public class Whatsnew extends Activity {
         mPage4 = (ImageView)findViewById(R.id.page4);
         mPage5 = (ImageView)findViewById(R.id.page5);
         
-      //锟斤拷要锟斤拷页锟斤拷示锟斤拷View装锟斤拷锟斤拷锟斤拷锟斤拷
         LayoutInflater mLi = LayoutInflater.from(this);
         View view1 = mLi.inflate(R.layout.whats1, null);
         View view2 = mLi.inflate(R.layout.whats2, null);
@@ -52,8 +51,7 @@ public class Whatsnew extends Activity {
         View view5 = mLi.inflate(R.layout.whats5, null);
         View view6 = mLi.inflate(R.layout.whats6, null);
         
-      //每锟斤拷页锟斤拷锟絭iew锟斤拷锟�        
-        final ArrayList<View> views = new ArrayList<View>();
+      final ArrayList<View> views = new ArrayList<View>();
         views.add(view1);
         views.add(view2);
         views.add(view3);
@@ -61,7 +59,6 @@ public class Whatsnew extends Activity {
         views.add(view5);
         views.add(view6);
         
-        //锟斤拷锟絍iewPager锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟�        
         PagerAdapter mPagerAdapter = new PagerAdapter() {
 			
 			@Override
@@ -126,7 +123,7 @@ public class Whatsnew extends Activity {
 				break;
 			}
 			currIndex = arg0;
-			//animation.setFillAfter(true);// True:图片停锟节讹拷锟斤拷锟斤拷锟斤拷位锟斤拷
+			//animation.setFillAfter(true);// True:
 			//animation.setDuration(300);
 			//mPageImg.startAnimation(animation);
 		}

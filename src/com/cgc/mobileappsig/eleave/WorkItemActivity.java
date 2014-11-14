@@ -67,10 +67,10 @@ public class WorkItemActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_todo);
 		
-		// é‘¾å³°å½‡TabHostç€µç¡…è–„  
+		// 
         TabHost tabHost = (TabHost) findViewById(R.id.tabhost);  
         
-        // æ¿¡å‚›ç�‰å¨Œâ„ƒæ¹�ç¼�Ñ„å£™TabActivityé�ƒè®¹ç´�é–«æ°³ç¹ƒç’‡ãƒ§îžŒé�‚è§„ç¡¶é�”çŠºæµ‡é�šîˆšå§©tabHost  
+        // tabHost  
         tabHost.setup();  
         
 //        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("->")  
@@ -370,12 +370,12 @@ public class WorkItemActivity extends Activity {
 	private void viewItemDetail(AdapterView<?> parent,int position)
 	{
 		
-		// é�”çŠºæµ‡detail.xmlé�£å²„æ½°ç”¯å†¨çœ¬æµ ï½ˆã€ƒé�¨å‹®îž…é�¥ï¿½
+		//
 		View detailView = getLayoutInflater().inflate(R.layout.activity_case_detail, null);
-		// é‘¾å³°å½‡detail.xmlé�£å²„æ½°ç”¯å†¨çœ¬æ¶“î… æ®‘é�‚å›¨æ¹°å¦—ï¿½
+		//
 		final EditText itemName = (EditText) detailView.findViewById(R.id.case_detail);
 
-		// é‘¾å³°å½‡ç�šî‚¢å´Ÿé�‘è�¤æ®‘é�’æ¥„ã€ƒæ¤¤ï¿½
+		//
 		String ItemDetail = (String) parent.getAdapter().getItem(position);
 		Log.e("Print list item", ItemDetail);
 //		Toast.makeText(WorkItemActivity.this, ItemDetail,Toast.LENGTH_LONG).show();
@@ -427,7 +427,7 @@ public class WorkItemActivity extends Activity {
 	private void viewItem(AdapterView<?> parent,int position)
 	{
 		
-		// é‘¾å³°å½‡ç�šî‚¢å´Ÿé�‘è�¤æ®‘é�’æ¥„ã€ƒæ¤¤ï¿½
+		// 
 		String ItemDetail = (String) parent.getAdapter().getItem(position);
 		String Caseid = ItemDetail.substring(9, 19);
 		
@@ -444,7 +444,7 @@ public class WorkItemActivity extends Activity {
 	private void choseItem(AdapterView<?> parent,int position)
 	{
 		
-		// é‘¾å³°å½‡ç�šî‚¢å´Ÿé�‘è�¤æ®‘é�’æ¥„ã€ƒæ¤¤ï¿½
+		// 
 		String ItemDetail = (String) parent.getAdapter().getItem(position);
 		String Caseid = ItemDetail.substring(9, 19);
 		
