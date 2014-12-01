@@ -9,7 +9,7 @@
     <string name="passstr">Password:</string>
     <string name="main_home">Home</string> 
     <string name="main_apply">Apply</string> 
-    <string name="main_exit">Exit1</string> 
+    <string name="main_exit">Exit</string> 
     <string name="main_report">Report</string> 
     <string name="main_todo">Todo</string>
     <string name="leave_info">Leave Information</string>
